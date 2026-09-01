@@ -1,0 +1,4409 @@
+{
+ "meta": {
+  "title": "探微书院2026级本科培养方案",
+  "year": "2026",
+  "sources": [
+   "https://www.twc.tsinghua.edu.cn/info/1018/3818.htm（探微书院官网·培养方案PDF）",
+   "https://zhjwxk.cic.tsinghua.edu.cn/jhBks.vjhBksPyfakzbBs.do?m=pyfakzFrame&fajhh=263474011&theModule=pyfa（选课系统培养方案，需校内登录）"
+  ],
+  "target": "培养在化学生物学及相衔接的工科领域具有学术和产业领导力的杰出人才。",
+  "note": "从2025级开始，探微书院按化学生物学强基专业入学；大二春季学期进行书院内工科衔接专业方向确认，大三春季学期可申请调整工科衔接方向。"
+ },
+ "credit_table": [
+  {
+   "name": "化学生物学+化学工程与工业生物工程",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 36,
+   "lim": 11,
+   "total": 156
+  },
+  {
+   "name": "化学生物学+高分子材料与工程",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 37,
+   "lim": 10,
+   "total": 156
+  },
+  {
+   "name": "化学生物学+环境工程",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 25,
+   "lim": 22,
+   "total": 156
+  },
+  {
+   "name": "化学生物学+给排水科学与工程",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 37,
+   "lim": 10,
+   "total": 156
+  },
+  {
+   "name": "化学生物学+生物医学工程",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 38,
+   "lim": 9,
+   "total": 156
+  },
+  {
+   "name": "化学生物学（药学方向）",
+   "degree": "单学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 26,
+   "lim": 11,
+   "total": 146
+  },
+  {
+   "name": "化学生物学+交叉工程（智能化工）",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 33,
+   "lim": 18,
+   "total": 160
+  },
+  {
+   "name": "化学生物学+交叉工程（环境人工智能）",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 30,
+   "lim": 17,
+   "total": 156
+  },
+  {
+   "name": "化学生物学+交叉工程（数智水务）",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 30,
+   "lim": 17,
+   "total": 156
+  },
+  {
+   "name": "化学生物学+交叉工程（智能医学工程）",
+   "degree": "双学位",
+   "ge": 43,
+   "cb": 66,
+   "mjr": 37,
+   "lim": 10,
+   "total": 156
+  }
+ ],
+ "general": {
+  "ideological": {
+   "title": "思想政治理论课（14学分：必修12 + 限选2）",
+   "credit": 14,
+   "required": [
+    {
+     "id": "",
+     "name": "大学生思想文化素养",
+     "credit": 2,
+     "note": "大一秋",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "马克思主义基本原理",
+     "credit": 2,
+     "note": "大一春",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "中国共产党历史与理论",
+     "credit": 3,
+     "note": "大二秋",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "10680153",
+     "name": "习近平新时代中国特色社会主义思想概论",
+     "credit": 3,
+     "note": "大二春",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "新时代实践教育",
+     "credit": 2,
+     "note": "大一夏",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "形势与政策 2组选1组",
+     "courses": [
+      {
+       "id": "10680101",
+       "name": "形势与政策（1）-秋",
+       "credit": 1,
+       "note": "组1",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10680131",
+       "name": "形势与政策（2）-春",
+       "credit": 1,
+       "note": "组1",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10680121",
+       "name": "形势与政策（1）-春",
+       "credit": 1,
+       "note": "组2",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10680111",
+       "name": "形势与政策（2）-秋",
+       "credit": 1,
+       "note": "组2",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ],
+   "note": "港澳台学生必修大学生思想文化素养2学分，其余不做要求；国际学生不做要求。"
+  },
+  "pe": {
+   "title": "体育（4学分）",
+   "credit": 4,
+   "required": [
+    {
+     "id": "",
+     "name": "体育（1）",
+     "credit": 1,
+     "note": "第1学期必修",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "体育（2）",
+     "credit": 1,
+     "note": "第2学期必修",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "体育（3）",
+     "credit": 1,
+     "note": "第3学期必修",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "体育（4）",
+     "credit": 1,
+     "note": "第4学期必修",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "id": "",
+     "name": "体育专项（5-6学期）",
+     "credit": 0,
+     "note": "第5-6学期限选，不设学分",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "free": [
+    {
+     "id": "",
+     "name": "体育专项（7-8学期）",
+     "credit": 0,
+     "note": "第7-8学期任选",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "note": "本科毕业必须通过游泳测试；大三结束申请推研需完成第1-4学期体育必修并取得学分。"
+  },
+  "foreign_lang": {
+   "title": "外语（一外英语必修8学分，一外其他语种必修6学分）",
+   "credit": 8,
+   "groups": [
+    {
+     "name": "一外英语-英语综合能力课组（必修4学分，按入学分级考试定）",
+     "courses": [
+      {
+       "id": "",
+       "name": "英语综合训练（C1）/（C2）",
+       "credit": 4,
+       "note": "入学分级考试1级/2级",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "英语阅读写作（B）/ 英语听说交流（B）",
+       "credit": 4,
+       "note": "入学分级考试2级",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "英语阅读写作（A）/ 英语听说交流（A）",
+       "credit": 4,
+       "note": "入学分级考试3级、4级",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "name": "一外英语-第二外语/外国语言文化/外语专项提高课组（限选4学分）",
+     "courses": [
+      {
+       "id": "",
+       "name": "第二外语/外国语言文化/外语专项提高课程",
+       "credit": 4,
+       "note": "详见选课手册，限选",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "name": "一外小语种学生（6学分）",
+     "courses": [
+      {
+       "id": "",
+       "name": "一外小语种课程",
+       "credit": 6,
+       "note": "详见选课手册",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ],
+   "note": "国际学生要求必修8学分语言课程（含4学分汉语水平提高+4学分非母语公共外语）。"
+  },
+  "writing": {
+   "title": "写作与沟通（必修2学分）",
+   "credit": 2,
+   "required": [
+    {
+     "id": "10691342",
+     "name": "写作与沟通",
+     "credit": 2,
+     "note": "HSK5级及以下国际学生可以高级汉语阅读与写作替代",
+     "tags": [],
+     "group": null
+    }
+   ]
+  },
+  "liberal": {
+   "title": "通识选修课（限选11学分）",
+   "credit": 11,
+   "limited": [
+    {
+     "group": "人文课组",
+     "courses": [
+      {
+       "id": "",
+       "name": "人文类通识选修课",
+       "credit": 2,
+       "note": "每课组至少选修2学分",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "社科课组",
+     "courses": [
+      {
+       "id": "",
+       "name": "社科类通识选修课",
+       "credit": 2,
+       "note": "每课组至少选修2学分；港澳台必修中国文化与中国国情3学分计入本组；国际学生必修中国概况类1门",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "艺术课组",
+     "courses": [
+      {
+       "id": "",
+       "name": "艺术类通识选修课",
+       "credit": 2,
+       "note": "每课组至少选修2学分",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "科学课组",
+     "courses": [
+      {
+       "id": "",
+       "name": "科学类通识选修课",
+       "credit": 2,
+       "note": "每课组至少选修2学分",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ],
+   "note": "建议探微书院学生选修至少1门『工程伦理』或『科学伦理』类课程。"
+  },
+  "military": {
+   "title": "军事课程（4学分，3周）",
+   "credit": 4,
+   "required": [
+    {
+     "id": "12090052",
+     "name": "军事理论",
+     "credit": 2,
+     "note": "中国大陆及港澳学生",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "12090062",
+     "name": "军事技能",
+     "credit": 2,
+     "note": "中国大陆及港澳学生",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "note": "中国台湾学生修台湾新生集训3学分；国际学生修国际新生集训3学分。"
+  }
+ },
+ "college": {
+  "math": {
+   "title": "数学课程（17学分，必修）",
+   "credit": 17,
+   "required": [
+    {
+     "id": "10421055",
+     "name": "微积分A（1）",
+     "credit": 5,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "10421065",
+     "name": "微积分A（2）",
+     "credit": 5,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "10421324",
+     "name": "线性代数",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "10420803",
+     "name": "概率论与数理统计",
+     "credit": 3,
+     "note": "三选一",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "概率论三选一",
+     "courses": [
+      {
+       "id": "10421373",
+       "name": "概率论与随机过程",
+       "credit": 3,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10421365",
+       "name": "随机数学与统计",
+       "credit": 5,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ],
+   "note": "经数学系认定的高阶本科生课程可替代对应数学课程。"
+  },
+  "physics": {
+   "title": "物理课程（9学分，必修）",
+   "credit": 9,
+   "required": [
+    {
+     "group": "大学物理（1）三选一",
+     "courses": [
+      {
+       "id": "10430484",
+       "name": "大学物理B（1）",
+       "credit": 4,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10431064",
+       "name": "大学物理（1）",
+       "credit": 4,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10430344",
+       "name": "大学物理(1)(英)",
+       "credit": 4,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "大学物理（2）三选一",
+     "courses": [
+      {
+       "id": "10430494",
+       "name": "大学物理B（2）",
+       "credit": 4,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10430194",
+       "name": "大学物理（2）",
+       "credit": 4,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10430354",
+       "name": "大学物理(2)(英)",
+       "credit": 4,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "",
+     "name": "大学物理实验",
+     "credit": 1,
+     "note": "探微书院定制，新开课",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "note": "经物理系认定的高阶本科生课程可替代对应物理课程。"
+  },
+  "chem_bio": {
+   "title": "化学生物课程（21学分，必修）",
+   "credit": 21,
+   "required": [
+    {
+     "id": "10440144",
+     "name": "化学原理",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20440104",
+     "name": "有机化学A(1)",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20440113",
+     "name": "有机化学A(2)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20440532",
+     "name": "无机及分析化学实验B",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20340123",
+     "name": "生物化学(1)",
+     "credit": 3,
+     "note": "替代课程组：生物化学1（英）和生物化学2（英），中英文不可混合替代",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20340133",
+     "name": "生物化学(2)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20440142",
+     "name": "有机化学实验A(1)",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "note": "经化学系和生命学院认定的高阶本科生课程可替代对应的化学和生物化学课程。"
+  },
+  "cs": {
+   "title": "信计课程（6学分，必修）",
+   "credit": 6,
+   "required": [
+    {
+     "group": "程序设计三选一",
+     "courses": [
+      {
+       "id": "20740102",
+       "name": "计算机程序设计基础",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "10340022",
+       "name": "信息科学理论与实践",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "00740282",
+       "name": "计算机程序设计基础（Python）",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "20740112",
+     "name": "数据结构与算法",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "group": "人工智能导论二选一",
+     "courses": [
+      {
+       "id": "30240042",
+       "name": "人工智能导论",
+       "credit": 2,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "00240042",
+       "name": "人工智能导论",
+       "credit": 2,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ],
+   "note": "经开课院系认定的高阶本科生课程可替代对应信计课程。"
+  },
+  "practice": {
+   "title": "书院实践（13学分，必修）",
+   "credit": 13,
+   "required": [
+    {
+     "group": "专业导论四选二",
+     "courses": [
+      {
+       "id": "30340451",
+       "name": "化学工程与高分子科学导论",
+       "credit": 1,
+       "note": "四选二",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050411",
+       "name": "环境科学与工程前沿导论",
+       "credit": 1,
+       "note": "四选二",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "34000271",
+       "name": "生物医学工程专业导论",
+       "credit": 1,
+       "note": "四选二",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44000061",
+       "name": "药学导论",
+       "credit": 1,
+       "note": "四选二",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "34740022",
+     "name": "科学训练I",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "科学训练II",
+     "credit": 3,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "综合论文训练",
+     "credit": 6,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    }
+   ]
+  }
+ },
+ "majors": {
+  "che": {
+   "code": "che",
+   "name": "化学生物学+化学工程与工业生物工程",
+   "degree": "双学位",
+   "total": 47,
+   "required_credit": 36,
+   "limited_credit": 11,
+   "required": [
+    {
+     "id": "20340103",
+     "name": "物理化学(1)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20340113",
+     "name": "物理化学(2)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340123",
+     "name": "化工热力学",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40340173",
+     "name": "传递过程原理",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340583",
+     "name": "化工原理(I)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "化工原理(II)",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340523",
+     "name": "反应工程基础",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340393",
+     "name": "化工系统工程基础",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40340144",
+     "name": "化工工艺与设备设计",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "安全与伦理",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "物化实验",
+     "credit": 1,
+     "note": "新开课，大二末夏季学期开",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "化工实验(1)",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "化工实验(2)",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340442",
+     "name": "化工实践（含化工仿真）",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "必选（6学分）",
+     "credit": 6,
+     "courses": [
+      {
+       "id": "31510246",
+       "name": "制造工程训练",
+       "credit": 6,
+       "note": "必选",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "选修模块（5学分）",
+     "credit": 5,
+     "modules": [
+      {
+       "name": "通识模块",
+       "courses": [
+        {
+         "id": "20750061",
+         "name": "信息检索与利用（化学/化工/生物及相关学科）",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "绿色资源模块",
+       "courses": [
+        {
+         "id": "40340653",
+         "name": "胶体与界面科学",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340102",
+         "name": "膜分离技术原理*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340462",
+         "name": "低碳工艺流程学概论*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340512",
+         "name": "分离技术最新进展*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "生物医药模块",
+       "courses": [
+        {
+         "id": "40340492",
+         "name": "工业微生物及其应用",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30340512",
+         "name": "分子生物学",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340633",
+         "name": "工程生物学基础",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340222",
+         "name": "分子酶工程*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340122",
+         "name": "环境微生物技术（英文）*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "70340132",
+         "name": "生物分离工程（英文）*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "能源材料模块",
+       "courses": [
+        {
+         "id": "40340072",
+         "name": "流态化反应工程",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340382",
+         "name": "工业催化",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340132",
+         "name": "石油化工工艺学",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340502",
+         "name": "无机材料工艺学基础",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340623",
+         "name": "电化学工程原理",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340112",
+         "name": "表面科学与多相催化*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340452",
+         "name": "材料化工*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340522",
+         "name": "无机材料结晶学基础*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340572",
+         "name": "高等电化学工程*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "人工智能与智慧化工模块",
+       "courses": [
+        {
+         "id": "10220053",
+         "name": "电工电子技术基础",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340642",
+         "name": "智能化工",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "20050022",
+         "name": "机器学习方法与应用基础",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "70340153",
+         "name": "化工系统优化与综合*",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340542",
+         "name": "化工过程控制*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340432",
+         "name": "危险和可操作性分析*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "先进高分子模块",
+       "courses": [
+        {
+         "id": "30340342",
+         "name": "专业英语交流技巧（高分子）",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340502",
+         "name": "无机材料工艺学基础",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340221",
+         "name": "高分子液晶",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340351",
+         "name": "精细高分子",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340542",
+         "name": "高分子材料概论",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340092",
+         "name": "先进功能高分子*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340272",
+         "name": "水性聚合物体系的理论与实践*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340642",
+         "name": "智能化工",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "polymer": {
+   "code": "polymer",
+   "name": "化学生物学+高分子材料与工程",
+   "degree": "双学位",
+   "total": 47,
+   "required_credit": 37,
+   "limited_credit": 10,
+   "required": [
+    {
+     "id": "20340103",
+     "name": "物理化学(1)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20340113",
+     "name": "物理化学(2)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40340173",
+     "name": "传递过程原理",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340094",
+     "name": "化学工程基础",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "安全与伦理",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40340393",
+     "name": "高分子化学",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340292",
+     "name": "高分子化学实验",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340353",
+     "name": "高分子物理",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340222",
+     "name": "高分子物理实验",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340233",
+     "name": "聚合物成型加工",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340361",
+     "name": "聚合物成型加工实验",
+     "credit": 1,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40340332",
+     "name": "聚合反应工程",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340383",
+     "name": "高分子材料仪器分析",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340533",
+     "name": "高分子材料仪器分析实验",
+     "credit": 1,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340442",
+     "name": "化工实践（含化工仿真）",
+     "credit": 2,
+     "note": "专业实践",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "必选（6学分）",
+     "credit": 6,
+     "courses": [
+      {
+       "id": "31510246",
+       "name": "制造工程训练",
+       "credit": 6,
+       "note": "必选",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "选修模块（至少4学分）",
+     "credit": 4,
+     "modules": [
+      {
+       "name": "通识模块",
+       "courses": [
+        {
+         "id": "20750061",
+         "name": "信息检索与利用（化学/化工/生物及相关学科）",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "绿色资源模块",
+       "courses": [
+        {
+         "id": "80340153",
+         "name": "胶体与界面科学*",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340102",
+         "name": "膜分离技术原理*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340462",
+         "name": "低碳工艺流程学概论*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340512",
+         "name": "分离技术最新进展*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "生物医药模块",
+       "courses": [
+        {
+         "id": "40340492",
+         "name": "工业微生物及其应用",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30340512",
+         "name": "分子生物学",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340633",
+         "name": "工程生物学基础",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340222",
+         "name": "分子酶工程*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340122",
+         "name": "环境微生物技术（英文）*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "70340132",
+         "name": "生物分离工程（英文）*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "能源材料模块",
+       "courses": [
+        {
+         "id": "40340072",
+         "name": "流态化反应工程",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340382",
+         "name": "工业催化",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340132",
+         "name": "石油化工工艺学",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340502",
+         "name": "无机材料工艺学基础",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340623",
+         "name": "电化学工程原理",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340112",
+         "name": "表面科学与多相催化*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340452",
+         "name": "材料化工*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340522",
+         "name": "无机材料结晶学基础*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340572",
+         "name": "高等电化学工程*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "人工智能与智慧化工模块",
+       "courses": [
+        {
+         "id": "10220053",
+         "name": "电工电子技术基础",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340642",
+         "name": "智能化工",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "20050022",
+         "name": "机器学习方法与应用基础",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "70340153",
+         "name": "化工系统优化与综合*",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340542",
+         "name": "化工过程控制*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340432",
+         "name": "危险和可操作性分析*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "先进高分子模块",
+       "courses": [
+        {
+         "id": "30340342",
+         "name": "专业英语交流技巧（高分子）",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340502",
+         "name": "无机材料工艺学基础",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340221",
+         "name": "高分子液晶",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340351",
+         "name": "精细高分子",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340542",
+         "name": "高分子材料概论",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340092",
+         "name": "先进功能高分子*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80340272",
+         "name": "水性聚合物体系的理论与实践*",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340642",
+         "name": "智能化工",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "env": {
+   "code": "env",
+   "name": "化学生物学+环境工程",
+   "degree": "双学位",
+   "total": 47,
+   "required_credit": 25,
+   "limited_credit": 22,
+   "required": [
+    {
+     "id": "30040663",
+     "name": "流体力学（环境工程方向）",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20120152",
+     "name": "工程图学基础",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20440513",
+     "name": "物理化学(B)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30050174",
+     "name": "环境工程原理",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40050013",
+     "name": "环境工程微生物学",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "group": "二选一",
+     "courses": [
+      {
+       "id": "34780032",
+       "name": "环境分析与评价",
+       "credit": 2,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050152",
+       "name": "环境化学",
+       "credit": 2,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "10050032",
+     "name": "创新思维和科学方法",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "group": "三选一",
+     "courses": [
+      {
+       "id": "24780042",
+       "name": "自然观测与调研",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "24780022",
+       "name": "社区可持续发展探究实践",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "24780032",
+       "name": "行业产业实践",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "",
+     "name": "环境质量监测",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "现代环境解决方案设计",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "环境方向限选基础课（7学分）",
+     "credit": 7,
+     "courses": [
+      {
+       "id": "04780012",
+       "name": "生态学原理",
+       "credit": 2,
+       "note": "限选7学分",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050182",
+       "name": "环境土壤学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44780042",
+       "name": "环境与资源经济学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "环境信息学",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050433",
+       "name": "环境健康学",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050672",
+       "name": "环境社会学-理论与研究方法",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "工程材料学",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "环境方向限选专业课（15学分）",
+     "credit": 15,
+     "modules": [
+      {
+       "name": "介质类限选专业课（至少选2门）",
+       "courses": [
+        {
+         "id": "",
+         "name": "环境质量工程",
+         "credit": 4,
+         "note": "新开课，至少选2门",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050455",
+         "name": "水处理工程（含实验）",
+         "credit": 5,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050444",
+         "name": "大气污染控制工程（含实验）",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050424",
+         "name": "固体废物处理处置工程（含实验）",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050834",
+         "name": "土壤与地下水污染防治工程",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050854",
+         "name": "环境系统分析",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "环境科学与技术",
+       "courses": [
+        {
+         "id": "40050812",
+         "name": "生物地球化学",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30050312",
+         "name": "室内空气污染物识别与净化",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "环境工程与设计",
+       "courses": [
+        {
+         "id": "44780081",
+         "name": "工程科学综合实验",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "00050092",
+         "name": "给排水科学与工程导论",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80050612",
+         "name": "水工程与智慧监管",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050562",
+         "name": "饮用水处理工艺与工程",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "城市水系统工程（含实验）",
+         "credit": 4,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "工程智能设计方法与应用",
+         "credit": 4,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "可持续水资源与智慧管理",
+         "credit": 2,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "智慧水务与智能控制",
+         "credit": 2,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "环境管理与规划",
+       "courses": [
+        {
+         "id": "40050662",
+         "name": "环境评价",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050752",
+         "name": "低碳技术与管理",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30050252",
+         "name": "环境管理学",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050602",
+         "name": "环境影响评价",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "水工业经济学",
+         "credit": 2,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "环境实践与决策",
+       "courses": [
+        {
+         "id": "40050872",
+         "name": "环境模拟实践",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050552",
+         "name": "环境与市政工程实践训练",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "环境人工智能",
+       "courses": [
+        {
+         "id": "00050181",
+         "name": "环境物联网与大数据",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44780033",
+         "name": "环境数据与模型",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050733",
+         "name": "环境信息技术与实践",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "24780082",
+         "name": "环境系统感知与控制",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050882",
+         "name": "环境决策实践",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "全球胜任力",
+       "courses": [
+        {
+         "id": "40050704",
+         "name": "国际环境合作实践训练",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30050302",
+         "name": "世界环境与文化体验（英语强化课堂）",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "海外交流",
+       "courses": [
+        {
+         "id": "",
+         "name": "海外交流学习",
+         "credit": 6,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "water": {
+   "code": "water",
+   "name": "化学生物学+给排水科学与工程",
+   "degree": "双学位",
+   "total": 47,
+   "required_credit": 37,
+   "limited_credit": 10,
+   "required": [
+    {
+     "id": "30040663",
+     "name": "流体力学（环境工程方向）",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20120152",
+     "name": "工程图学基础",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20440513",
+     "name": "物理化学(B)",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30050174",
+     "name": "环境工程原理",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40050013",
+     "name": "环境工程微生物学",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "group": "二选一",
+     "courses": [
+      {
+       "id": "34780032",
+       "name": "环境分析与评价",
+       "credit": 2,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050152",
+       "name": "环境化学",
+       "credit": 2,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "",
+     "name": "城市水系统工程（含实验）",
+     "credit": 4,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "可持续水资源与智慧管理",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "智慧水务与智能控制",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "水工业经济学",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "10050032",
+     "name": "创新思维和科学方法",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "group": "三选一",
+     "courses": [
+      {
+       "id": "24780042",
+       "name": "自然观测与调研",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "24780022",
+       "name": "社区可持续发展探究实践",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "24780032",
+       "name": "行业产业实践",
+       "credit": 2,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "",
+     "name": "环境质量监测",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "工程智能设计方法与应用",
+     "credit": 4,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "给排水方向限选基础课（7学分）",
+     "credit": 7,
+     "courses": [
+      {
+       "id": "",
+       "name": "环境信息学",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44780042",
+       "name": "环境与资源经济学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050433",
+       "name": "环境健康学",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050672",
+       "name": "环境社会学-理论与研究方法",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "工程材料学",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "给排水方向限选专业课（3学分）",
+     "credit": 3,
+     "modules": [
+      {
+       "name": "科学与技术",
+       "courses": [
+        {
+         "id": "40050812",
+         "name": "生物地球化学",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30050312",
+         "name": "室内空气污染物识别与净化",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "工程与设计",
+       "courses": [
+        {
+         "id": "44780081",
+         "name": "工程科学综合实验",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "现代环境解决方案设计",
+         "credit": 2,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "00050092",
+         "name": "给排水科学与工程导论",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "80050612",
+         "name": "水工程与智慧监管",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050562",
+         "name": "饮用水处理工艺与工程",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050455",
+         "name": "水处理工程（含实验）",
+         "credit": 5,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050444",
+         "name": "大气污染控制工程(含实验)",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050424",
+         "name": "固体废物处理处置工程(含实验)",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050834",
+         "name": "土壤与地下水污染防治工程",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "环境质量工程",
+         "credit": 5,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "管理与规划",
+       "courses": [
+        {
+         "id": "40050662",
+         "name": "环境评价",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050752",
+         "name": "低碳技术与管理",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30050252",
+         "name": "环境管理学",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050602",
+         "name": "环境影响评价",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050854",
+         "name": "环境系统分析",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "实践与决策",
+       "courses": [
+        {
+         "id": "40050872",
+         "name": "环境模拟实践",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050552",
+         "name": "环境与市政工程实践训练",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "人工智能",
+       "courses": [
+        {
+         "id": "00050181",
+         "name": "环境物联网与大数据",
+         "credit": 1,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44780033",
+         "name": "环境数据与模型",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050733",
+         "name": "环境信息技术与实践",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "24780082",
+         "name": "环境系统感知与控制",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40050882",
+         "name": "环境决策实践",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "全球胜任力",
+       "courses": [
+        {
+         "id": "40050704",
+         "name": "国际环境合作实践训练",
+         "credit": 4,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30050302",
+         "name": "世界环境与文化体验（英语强化课堂）",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "海外交流",
+       "courses": [
+        {
+         "id": "",
+         "name": "海外交流学习",
+         "credit": 6,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "bme": {
+   "code": "bme",
+   "name": "化学生物学+生物医学工程",
+   "degree": "双学位",
+   "total": 47,
+   "required_credit": 38,
+   "limited_credit": 9,
+   "required": [
+    {
+     "id": "20220314",
+     "name": "电工技术与电子技术(1)",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20220324",
+     "name": "电工技术与电子技术(2)",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "group": "二选一",
+     "courses": [
+      {
+       "id": "30450453",
+       "name": "分子生物学（英）",
+       "credit": 3,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40340633",
+       "name": "工程生物学基础",
+       "credit": 3,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "30450314",
+     "name": "生物化学基础实验",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000733",
+     "name": "人体结构与功能",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000742",
+     "name": "生理系统仿真与建模",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000663",
+     "name": "生物医学电子学（1）传感器",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000673",
+     "name": "生物医学电子学（2）仪器",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000653",
+     "name": "生物医学工程材料",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44000603",
+     "name": "生物医学工程综合设计",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000643",
+     "name": "电生理原理与实验",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44030123",
+     "name": "生产实习",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "限选（9学分，3门课，三选一课组）",
+     "credit": 9,
+     "modules": [
+      {
+       "name": "微纳医学课组（三选一）",
+       "courses": [
+        {
+         "id": "44000583",
+         "name": "生物医学检测-光学仪器设计",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44000573",
+         "name": "生物系统制造原理",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44000593",
+         "name": "生物医学检测-器件与试剂",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "神经工程课组（三选一）",
+       "courses": [
+        {
+         "id": "34000353",
+         "name": "神经科学及神经工程基础",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44030263",
+         "name": "系统与计算神经科学",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44000423",
+         "name": "神经建模与数据分析",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "医学影像课组（三选一）",
+       "courses": [
+        {
+         "id": "44000183",
+         "name": "医学影像（1）-物理基础",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "34000503",
+         "name": "医学影像（2）-成像系统",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "34000633",
+         "name": "医学图像处理",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "smart_chem": {
+   "code": "smart_chem",
+   "name": "化学生物学+交叉工程（智能化工）",
+   "degree": "双学位",
+   "total": 47,
+   "extra": "+4学分（离散数学），总学分160",
+   "required_credit": 35,
+   "limited_credit": 16,
+   "required": [
+    {
+     "id": "30240604",
+     "name": "面向计算机科学的离散数学",
+     "credit": 4,
+     "note": "数学课程",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "00240362",
+     "name": "计算思维",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20740063",
+     "name": "数据库技术及应用",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40240902",
+     "name": "人工智能技术",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "group": "三选一（选2学分课需在限选中增加1学分）",
+     "courses": [
+      {
+       "id": "30240343",
+       "name": "数字逻辑电路",
+       "credit": 3,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30240353",
+       "name": "数字逻辑设计",
+       "credit": 3,
+       "note": "三选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "40240552",
+     "name": "嵌入式系统",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20340154",
+     "name": "热力学与动力学",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340094",
+     "name": "化学工程基础",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40340173",
+     "name": "传递过程原理",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340523",
+     "name": "反应工程基础",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340393",
+     "name": "化工系统工程基础",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30340442",
+     "name": "化工实践（含化工仿真）",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40340662",
+     "name": "智能化工综合实验",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "必选（6学分）",
+     "credit": 6,
+     "courses": [
+      {
+       "id": "31510246",
+       "name": "制造工程训练",
+       "credit": 6,
+       "note": "必选",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "选修（计算机与智能科学子模块至少4学分）",
+     "credit": 4,
+     "modules": [
+      {
+       "name": "计算机与智能科学子模块",
+       "courses": [
+        {
+         "id": "40240532",
+         "name": "机器学习概论",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40240372",
+         "name": "信息检索",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "00240332",
+         "name": "深度学习导论",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30240312",
+         "name": "人工神经网络",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "10420252",
+         "name": "复变函数引论",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "10421382",
+         "name": "高等线性代数选讲",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "10340022",
+         "name": "信息科学理论与实践",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "化学工程与高分子子模块（至少4学分）",
+       "courses": [
+        {
+         "id": "30340182",
+         "name": "生物化工基础",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "group": "二选一",
+         "courses": [
+          {
+           "id": "40340633",
+           "name": "工程生物学基础",
+           "credit": 3,
+           "note": "二选一",
+           "tags": [],
+           "group": null
+          },
+          {
+           "id": "40340642",
+           "name": "智能化工",
+           "credit": 2,
+           "note": "二选一",
+           "tags": [],
+           "group": null
+          }
+         ]
+        },
+        {
+         "id": "30340123",
+         "name": "化工热力学",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340623",
+         "name": "电化学工程原理",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30340353",
+         "name": "高分子物理",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340393",
+         "name": "高分子化学",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30340233",
+         "name": "聚合物成型加工",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340382",
+         "name": "工业催化",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "40340502",
+         "name": "无机材料工艺学基础",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "智能化工进阶实验子模块（至少2学分）",
+       "courses": [
+        {
+         "id": "",
+         "name": "化工实验(2)",
+         "credit": 2,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "00340262",
+         "name": "“自由能”化工车设计与制造",
+         "credit": 2,
+         "note": "",
+         "tags": [],
+         "group": null
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "other_note": "本项目要求必选通识选修：人工智能与流程工业导论（00340282，2学分，科学类）、工程经济学（20510032，2学分，经济类）、安全与伦理（新开课，2学分）。数学课程在书院基础必修之外必修4学分离散数学，总学分164。",
+   "grad": [
+    {
+     "id": "70340063",
+     "name": "高等化工热力学",
+     "credit": 3,
+     "note": "化工专业，本研衔接",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "70340073",
+     "name": "化工传递过程原理",
+     "credit": 3,
+     "note": "化工专业",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "70340193",
+     "name": "高等化学反应工程原理",
+     "credit": 3,
+     "note": "化工专业",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "60340011",
+     "name": "化学工程伦理",
+     "credit": 1,
+     "note": "化工专业",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "70340013",
+     "name": "当代高分子化学",
+     "credit": 3,
+     "note": "高分子专业",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "70340023",
+     "name": "高聚物结构与性能",
+     "credit": 3,
+     "note": "高分子专业",
+     "tags": [],
+     "group": null
+    }
+   ]
+  },
+  "env_ai": {
+   "code": "env_ai",
+   "name": "化学生物学+交叉工程（环境人工智能）",
+   "degree": "双学位",
+   "total": 47,
+   "required_credit": 30,
+   "limited_credit": 17,
+   "required": [
+    {
+     "group": "工程基础课（8学分）",
+     "courses": [
+      {
+       "id": "30040663",
+       "name": "流体力学（环境工程方向）",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "20120152",
+       "name": "工程图学基础",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "20440513",
+       "name": "物理化学(B)",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "环境方向基础课（14学分）",
+     "courses": [
+      {
+       "id": "30050174",
+       "name": "环境工程原理",
+       "credit": 4,
+       "note": "必修",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050013",
+       "name": "环境工程微生物学",
+       "credit": 3,
+       "note": "必修",
+       "tags": [],
+       "group": null
+      },
+      {
+       "group": "二选一，必修",
+       "courses": [
+        {
+         "id": "34780032",
+         "name": "环境分析与评价",
+         "credit": 2,
+         "note": "二选一，必修",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30050152",
+         "name": "环境化学",
+         "credit": 2,
+         "note": "二选一，必修",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "id": "04780012",
+       "name": "生态学原理",
+       "credit": 2,
+       "note": "限选5学分",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050182",
+       "name": "环境土壤学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44780042",
+       "name": "环境与资源经济学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "环境信息学",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050433",
+       "name": "环境健康学",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050672",
+       "name": "环境社会学-理论与研究方法",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "工程材料学",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "专业实践环节（8学分，必修）",
+     "courses": [
+      {
+       "id": "10050032",
+       "name": "创新思维和科学方法",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "group": "三选一",
+       "courses": [
+        {
+         "id": "24780042",
+         "name": "自然观测与调研",
+         "credit": 2,
+         "note": "三选一",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "24780022",
+         "name": "社区可持续发展探究实践",
+         "credit": 2,
+         "note": "三选一",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "24780032",
+         "name": "行业产业实践",
+         "credit": 2,
+         "note": "三选一",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "id": "",
+       "name": "环境质量监测",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "现代环境解决方案设计",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ],
+   "limited": [
+    {
+     "group": "介质类专业课（7学分，至少两门）",
+     "credit": 7,
+     "courses": [
+      {
+       "id": "",
+       "name": "环境质量工程",
+       "credit": 4,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050455",
+       "name": "水处理工程（含实验）",
+       "credit": 5,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050444",
+       "name": "大气污染控制工程（含实验）",
+       "credit": 4,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050424",
+       "name": "固体废物处理处置工程（含实验）",
+       "credit": 4,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050834",
+       "name": "土壤与地下水污染防治工程",
+       "credit": 4,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050854",
+       "name": "环境系统分析",
+       "credit": 4,
+       "note": "",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "环境人工智能（10学分）",
+     "credit": 10,
+     "courses": [
+      {
+       "id": "20740063",
+       "name": "数据库技术及应用",
+       "credit": 3,
+       "note": "必选",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30240343",
+       "name": "数字逻辑电路",
+       "credit": 3,
+       "note": "必选",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "24780082",
+       "name": "环境系统感知与控制",
+       "credit": 2,
+       "note": "必选1门",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050733",
+       "name": "环境信息技术与实践",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050882",
+       "name": "环境决策实践",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44780033",
+       "name": "环境数据与模型",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "00050181",
+       "name": "环境物联网与大数据",
+       "credit": 1,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "20250242",
+       "name": "人工智能原理",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40240902",
+       "name": "人工智能技术",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40260092",
+       "name": "集成传感器",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40470482",
+       "name": "大语言模型应用概论",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ]
+  },
+  "water_digital": {
+   "code": "water_digital",
+   "name": "化学生物学+交叉工程（数智水务）",
+   "degree": "双学位",
+   "total": 47,
+   "required_credit": 32,
+   "limited_credit": 15,
+   "required": [
+    {
+     "group": "工程基础课（8学分）",
+     "courses": [
+      {
+       "id": "30040663",
+       "name": "流体力学（环境工程方向）",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "20120152",
+       "name": "工程图学基础",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "20440513",
+       "name": "物理化学(B)",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "给排水方向基础课（14学分）",
+     "courses": [
+      {
+       "id": "30050174",
+       "name": "环境工程原理",
+       "credit": 4,
+       "note": "必修",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050013",
+       "name": "环境工程微生物学",
+       "credit": 3,
+       "note": "必修",
+       "tags": [],
+       "group": null
+      },
+      {
+       "group": "二选一，必修",
+       "courses": [
+        {
+         "id": "34780032",
+         "name": "环境分析与评价",
+         "credit": 2,
+         "note": "二选一，必修",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "30050152",
+         "name": "环境化学",
+         "credit": 2,
+         "note": "二选一，必修",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "id": "",
+       "name": "环境信息学",
+       "credit": 2,
+       "note": "新开课，限选5学分",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44780042",
+       "name": "环境与资源经济学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30050433",
+       "name": "环境健康学",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050672",
+       "name": "环境社会学-理论与研究方法",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "工程材料学",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "专业实践环节（10学分，必修）",
+     "courses": [
+      {
+       "id": "10050032",
+       "name": "创新思维和科学方法",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "group": "三选一",
+       "courses": [
+        {
+         "id": "24780042",
+         "name": "自然观测与调研",
+         "credit": 2,
+         "note": "三选一",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "24780022",
+         "name": "社区可持续发展探究实践",
+         "credit": 2,
+         "note": "三选一",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "24780032",
+         "name": "行业产业实践",
+         "credit": 2,
+         "note": "三选一",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "id": "",
+       "name": "环境质量监测",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "工程智能设计方法与应用",
+       "credit": 4,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ],
+   "limited": [
+    {
+     "group": "给排水方向核心课（5学分）",
+     "credit": 5,
+     "courses": [
+      {
+       "id": "",
+       "name": "城市水系统工程（含实验）",
+       "credit": 4,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "可持续水资源与智慧管理",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "智慧水务与智能控制",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "",
+       "name": "水工业经济学",
+       "credit": 2,
+       "note": "新开课",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "group": "环境人工智能（10学分）",
+     "credit": 10,
+     "courses": [
+      {
+       "id": "20740063",
+       "name": "数据库技术及应用",
+       "credit": 3,
+       "note": "必修",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30240343",
+       "name": "数字逻辑电路",
+       "credit": 3,
+       "note": "必修",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "24780082",
+       "name": "环境系统感知与控制",
+       "credit": 2,
+       "note": "限选1门",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050733",
+       "name": "环境信息技术与实践",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40050882",
+       "name": "环境决策实践",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44780033",
+       "name": "环境数据与模型",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "00050181",
+       "name": "环境物联网与大数据",
+       "credit": 1,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "20250242",
+       "name": "人工智能原理",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40240902",
+       "name": "人工智能技术",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40260092",
+       "name": "集成传感器",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40470482",
+       "name": "大语言模型应用概论",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ]
+  },
+  "smart_med": {
+   "code": "smart_med",
+   "name": "化学生物学+交叉工程（智能医学工程）",
+   "degree": "双学位",
+   "total": 47,
+   "required_credit": 37,
+   "limited_credit": 10,
+   "required": [
+    {
+     "id": "20440513",
+     "name": "物理化学B",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "04100041",
+     "name": "大数据技术导论",
+     "credit": 1,
+     "note": "人工智能课程模块",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30250392",
+     "name": "模式识别与机器学习",
+     "credit": 2,
+     "note": "人工智能课程模块",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "00240392",
+     "name": "人工智能基础与编程实践",
+     "credit": 2,
+     "note": "人工智能课程模块",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "25020014",
+     "name": "信号与系统",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "group": "二选一",
+     "courses": [
+      {
+       "id": "30450453",
+       "name": "分子生物学（英）",
+       "credit": 3,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40340633",
+       "name": "工程生物学基础",
+       "credit": 3,
+       "note": "二选一",
+       "tags": [],
+       "group": null
+      }
+     ]
+    },
+    {
+     "id": "40251303",
+     "name": "交叉项目训练-生物信息学概论与实践",
+     "credit": 3,
+     "note": "人工智能课程模块，需10个选课容量",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000733",
+     "name": "人体结构与功能",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000742",
+     "name": "生理系统仿真与建模",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "生物医学电子学与仪器",
+     "credit": 3,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "",
+     "name": "生物医学电子学与仪器实验",
+     "credit": 2,
+     "note": "新开课",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000653",
+     "name": "生物医学工程材料",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000643",
+     "name": "电生理原理与实验",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44030123",
+     "name": "生产实习",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "限选（10学分，课组三选一+实验）",
+     "credit": 10,
+     "modules": [
+      {
+       "name": "微纳医学课组（三选一）",
+       "courses": [
+        {
+         "id": "44000583",
+         "name": "生物医学检测-光学仪器设计",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44000573",
+         "name": "生物系统制造原理",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44000593",
+         "name": "生物医学检测-器件与试剂",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "智能微纳医学与组织工程实验",
+         "credit": 1,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "神经工程课组（三选一）",
+       "courses": [
+        {
+         "id": "34000353",
+         "name": "神经科学及神经工程基础",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44030263",
+         "name": "系统与计算神经科学",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "44000423",
+         "name": "神经建模与数据分析",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "智能神经工程实验",
+         "credit": 1,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        }
+       ]
+      },
+      {
+       "name": "医学影像课组（三选一）",
+       "courses": [
+        {
+         "id": "44000183",
+         "name": "医学影像（1）-物理基础",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "34000503",
+         "name": "医学影像（2）-成像系统",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "34000633",
+         "name": "医学图像处理",
+         "credit": 3,
+         "note": "",
+         "tags": [],
+         "group": null
+        },
+        {
+         "id": "",
+         "name": "智能医学影像实验",
+         "credit": 1,
+         "note": "新开课",
+         "tags": [],
+         "group": null
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "pharmacy": {
+   "code": "pharmacy",
+   "name": "化学生物学（药学方向）",
+   "degree": "单学位",
+   "total": 37,
+   "required_credit": 26,
+   "limited_credit": 11,
+   "required": [
+    {
+     "id": "20440513",
+     "name": "物理化学B",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30450453",
+     "name": "分子生物学（英文）",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44000123",
+     "name": "药物化学",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44000361",
+     "name": "药物化学实验",
+     "credit": 1,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44020042",
+     "name": "药物分析",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44000112",
+     "name": "药剂学",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44000261",
+     "name": "药剂学实验",
+     "credit": 1,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34020014",
+     "name": "药理学原理",
+     "credit": 4,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44000282",
+     "name": "药理毒理实验",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44020013",
+     "name": "药物设计",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44020132",
+     "name": "药学社会实践",
+     "credit": 2,
+     "note": "大三暑假开设",
+     "tags": [],
+     "group": null
+    }
+   ],
+   "limited": [
+    {
+     "group": "限选（11学分，至少选3门课）",
+     "credit": 11,
+     "courses": [
+      {
+       "id": "34020082",
+       "name": "药物毒理学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "34020041",
+       "name": "药事管理学",
+       "credit": 1,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44000102",
+       "name": "天然药物化学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44020022",
+       "name": "生物技术药物",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44020051",
+       "name": "绿色催化在药物研发中的应用",
+       "credit": 1,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44020072",
+       "name": "免疫治疗药物与技术",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44020142",
+       "name": "药物递送原理与应用",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44020122",
+       "name": "化学生物信息学与人工智能",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "04020042",
+       "name": "组学技术与药物研发",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "84020113",
+       "name": "AI制药方法与实践",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "84020162",
+       "name": "生物医药学中的AI技术应用",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "44000332",
+       "name": "药学实践B",
+       "credit": 2,
+       "note": "大二暑假开设",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "40450032",
+       "name": "免疫学",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30450314",
+       "name": "生物化学基础实验",
+       "credit": 4,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30450322",
+       "name": "分子生物学基础实验",
+       "credit": 2,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30450514",
+       "name": "细胞生物学",
+       "credit": 4,
+       "note": "",
+       "tags": [],
+       "group": null
+      },
+      {
+       "id": "30450373",
+       "name": "生理学",
+       "credit": 3,
+       "note": "",
+       "tags": [],
+       "group": null
+      }
+     ]
+    }
+   ],
+   "free": [
+    {
+     "id": "20750061",
+     "name": "信息检索与利用",
+     "credit": 1,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "34000612",
+     "name": "生物统计学基础",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "44000283",
+     "name": "化学生物学",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "40440341",
+     "name": "化学生物学实验",
+     "credit": 1,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "30450332",
+     "name": "细胞生物学基础实验",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "20440441",
+     "name": "物理化学实验C",
+     "credit": 1,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "04020032",
+     "name": "解码衰老",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "04000061",
+     "name": "传统与现代：中医药科学研究进展",
+     "credit": 1,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "84000812",
+     "name": "现代药物化学理论与实践",
+     "credit": 3,
+     "note": "",
+     "tags": [],
+     "group": null
+    },
+    {
+     "id": "74000322",
+     "name": "高等药理学",
+     "credit": 2,
+     "note": "",
+     "tags": [],
+     "group": null
+    }
+   ]
+  }
+ }
+}
