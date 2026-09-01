@@ -7,3 +7,6 @@ pyfa_text.txt
 # 系统文件
 .DS_Store
 *.log
+# 中间数据（可由 scripts/fetch_reviews.py 重建）
+data/reviews_raw/
+data/matched_sqids.json
