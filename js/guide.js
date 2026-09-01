@@ -17,7 +17,40 @@ const quiz = {
       return;
     }
     this.buildSteps();
+    // 恢复分享链接或上次保存的答案
+    const shared = this.parseShareHash();
+    if (shared) {
+      this.answers = shared;
+      // 分享链接直达结果
+      this.showResult();
+      return;
+    }
+    try {
+      const saved = localStorage.getItem("tanwei_quiz_answers");
+      if (saved) this.answers = JSON.parse(saved);
+    } catch (e) { /* ignore */ }
     this.renderStep();
+  },
+
+  /** 解析分享链接 #q=<base64url of JSON> */
+  parseShareHash() {
+    const m = location.hash.match(/^#q=(.+)$/);
+    if (!m) return null;
+    try {
+      const json = decodeURIComponent(atob(m[1].replace(/-/g, "+").replace(/_/g, "/")));
+      const ans = JSON.parse(json);
+      // 校验 key
+      const keys = Object.fromEntries(QUIZ.map(q => [q.id, 1]));
+      const ok = Object.keys(ans).every(k => keys[k]);
+      return ok ? ans : null;
+    } catch (e) { return null; }
+  },
+
+  /** 生成分享链接 */
+  shareHash() {
+    const json = JSON.stringify(this.answers);
+    const b64 = btoa(unescape(encodeURIComponent(json))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    return location.origin + location.pathname + "#q=" + b64;
   },
 
   buildSteps() {
@@ -132,6 +165,12 @@ const quiz = {
 
   /* ============ 结果渲染 ============ */
   showResult() {
+    // 保存答案到 localStorage，并更新分享链接
+    try {
+      localStorage.setItem("tanwei_quiz_answers", JSON.stringify(this.answers));
+      history.replaceState(null, "", this.shareHash());
+    } catch (e) { /* ignore */ }
+
     const rec = generateRecommendations(this.answers);
     const dirName = directionName(rec.direction);
 
@@ -227,10 +266,32 @@ const quiz = {
     // 提示
     const notice = document.createElement("div");
     notice.className = "notice mt24";
-    notice.innerHTML = `<b>💡 使用提示：</b>限选与任选课程每年开课情况、课容量可能变化，请以选课系统实际开放课程为准；评分高的课通常抢课激烈，建议提前规划备选。培养方案完整细节见 <a href="pyfa.html">培养方案</a> 页。`;
+    notice.innerHTML = `<b>💡 使用提示：</b>限选与任选课程每年开课情况、课容量可能变化，请以选课系统实际开放课程为准；评分高的课通常抢课激烈，建议提前规划备选。培养方案完整细节见 <a href="pyfa.html">培养方案</a> 页。<br>
+    <b>🔗 分享：</b>当前页面链接已包含你的问卷答案，复制地址发给同学，对方打开即可看到同样结果。`;
     body.appendChild(notice);
 
+    // 分享按钮
+    const shareBar = document.createElement("div");
+    shareBar.className = "card";
+    shareBar.style.textAlign = "center";
+    shareBar.innerHTML = `
+      <p class="small mb8">把这份选课清单分享给同学：</p>
+      <button class="btn btn-primary" onclick="quiz.copyShare()">📋 复制分享链接</button>`;
+    body.appendChild(shareBar);
+
     window.scrollTo(0, 0);
+  },
+
+  /** 复制分享链接 */
+  async copyShare() {
+    const url = this.shareHash();
+    try {
+      await navigator.clipboard.writeText(url);
+      alert("✅ 链接已复制！发给同学即可看到同样的选课清单。");
+    } catch (e) {
+      // 剪贴板不可用时提示手动复制
+      prompt("请手动复制以下链接：", url);
+    }
   },
 };
 

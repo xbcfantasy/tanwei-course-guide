@@ -60,7 +60,7 @@ function buildInterestWeight(style, priority, plan, extra) {
   return w;
 }
 
-/** 综合得分：兴趣匹配 + 评价分 + 负荷调整 */
+/** 综合得分：兴趣匹配 + 评价分 + 点评内容分析 + 负荷调整 */
 function scoreCourse(course, interestWeight, styleTags) {
   let score = 0;
   const tags = course.tags || styleTags || [];
@@ -75,8 +75,20 @@ function scoreCourse(course, interestWeight, styleTags) {
   } else {
     score += 0.3;
   }
-  // 内容有趣偏好 → 有详细评价的课程加一点
-  if (interestWeight["fun"] && ev && ev.reviews && ev.reviews.length) score += 0.6;
+
+  // 点评内容关键词分析：让真实点评影响排序
+  if (ev && ev.reviews && ev.reviews.length) {
+    const text = ev.reviews.map(r => r.comment || "").join(" ");
+    const has = (re) => re.test(text);
+    if (interestWeight["fun"] && has(/有趣|有意思|好玩|生动|快乐|愉快|很棒|推荐/)) score += 0.7;
+    if (interestWeight["grade"] && has(/给分好|给分高|给分友好|满分|A\+|绩点友好|不卡分|给分宽松/)) score += 0.7;
+    if (interestWeight["grade"] && has(/给分低|给分差|卡分|严格压分|给分不好/)) score -= 0.6;
+    if (interestWeight["light"] && has(/作业少|作业不多|负担轻|轻松|任务量小|不费时/)) score += 0.6;
+    if (interestWeight["light"] && has(/作业多|任务重|负担重|熬夜|强度大/)) score -= 0.5;
+    if (interestWeight["teacher"] && has(/老师好|老师负责|老师耐心|讲得好|幽默|认真|nice|温柔/)) score += 0.6;
+    if (interestWeight["rigorous"] && has(/干货|收获大|学得扎实|严格但|有挑战|内容丰富|受益匪浅/)) score += 0.6;
+    score += 0.2; // 有详细点评本身加分
+  }
   return score;
 }
 

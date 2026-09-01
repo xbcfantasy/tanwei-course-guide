@@ -14,9 +14,9 @@ with open(os.path.join(ROOT, "data", "zhjwxk_courses.json"), encoding="utf-8") a
     zhjwxk = json.load(f)
 with open(os.path.join(ROOT, "data", "tanwei_pyfa.json"), encoding="utf-8") as f:
     pyfa = json.load(f)
-with open(os.path.join(ROOT, "with_comment_index.json"), encoding="utf-8") as f:
+with open(os.path.join(ROOT, "sources", "with_comment_index.json"), encoding="utf-8") as f:
     wc = json.load(f)["courses"]
-with open(os.path.join(ROOT, "reviews_latest.json"), encoding="utf-8") as f:
+with open(os.path.join(ROOT, "sources", "reviews_latest.json"), encoding="utf-8") as f:
     latest = json.load(f)
 
 # ---------- evaluation index by normalized course name ----------
@@ -26,12 +26,15 @@ def norm(s):
     return s
 
 eval_by_name = {}
+sqid_to_name = {}
 for k, v in wc.items():
     n = norm(v["kcm"])
-    eval_by_name[n] = {
-        "name": v["kcm"], "count": v.get("count", 0),
-        "avg": round(float(v.get("avg", 0)), 2), "dept": (v.get("kkdw") or "").strip(),
-    }
+    sqid_to_name[v["sqid"]] = n
+    if n not in eval_by_name or v.get("count", 0) > eval_by_name[n]["count"]:
+        eval_by_name[n] = {
+            "name": v["kcm"], "count": v.get("count", 0),
+            "avg": round(float(v.get("avg", 0)), 2), "dept": (v.get("kkdw") or "").strip(),
+        }
 reviews_by_course = {}
 for r in latest:
     n = norm(r.get("_course_name", ""))
@@ -40,6 +43,30 @@ for r in latest:
         "comment": (r.get("comment") or "").strip(), "teacher": r.get("_course_teacher"),
         "date": r.get("created_at"),
     })
+
+# ---------- load bulk reviews downloaded by fetch_reviews.py ----------
+BULK_DIR = os.path.join(ROOT, "data", "reviews_raw")
+if os.path.isdir(BULK_DIR):
+    for fn in os.listdir(BULK_DIR):
+        if not fn.endswith(".json"):
+            continue
+        sqid = fn[:-5]
+        try:
+            with open(os.path.join(BULK_DIR, fn), encoding="utf-8") as f:
+                payload = json.load(f)
+        except Exception:
+            continue
+        name = sqid_to_name.get(int(sqid)) if sqid.isdigit() else None
+        if not name:
+            continue
+        for r in payload.get("results", []):
+            reviews_by_course.setdefault(name, []).append({
+                "rating": r.get("rating"), "score": r.get("score"),
+                "comment": (r.get("comment") or "").strip(),
+                "teacher": r.get("teacher") or r.get("_course_teacher"),
+                "date": r.get("created_at"),
+            })
+    print(f"从 reviews_raw 加载评价，覆盖课程数: {len(reviews_by_course)}")
 
 def lookup_eval(name):
     n = norm(name)

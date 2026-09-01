@@ -1,0 +1,21 @@
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1096,
+      "rating": 4,
+      "comment": "超级大水课，只有小作业+pre，不考勤，但本人吃了3.6，哭…",
+      "created_at": "2024/07/23 15:46",
+      "score": null
+    },
+    {
+      "id": 3529,
+      "rating": 5,
+      "comment": "考核方式：\n              \n授课质量与给分：任务量超级少，哲学主题也很有趣，上课不会点人，超级i人友好，夯爆了\n              \n点评人：\n              \n上课学期：",
+      "created_at": "2026/07/03 17:46",
+      "score": "a"
+    }
+  ]
+}
