@@ -289,11 +289,12 @@ const quiz = {
       blk.className = "module-block";
       blk.innerHTML = `
         <div class="mod-head">${b.highlighted ? "🔥 " : ""}${esc(b.title)} <span class="mod-req">${esc(b.items[0].credit)} 学分/门</span></div>
+        <p class="small mb8">${b.desc ? esc(b.desc) : ""}</p>
         <div style="overflow-x:auto"><table class="tbl">
           <tr><th>课程名称</th><th class="num" style="width:56px">学分</th><th style="width:150px">学生评分</th><th class="num" style="width:64px">评价数</th></tr>
           ${b.items.map(c => `
             <tr>
-              <td>${esc(c.name)}</td>
+              <td>${esc(c.name)}${reviewSnippet(c) ? `<div class="small muted">${esc(reviewSnippet(c))}</div>` : ""}</td>
               <td class="num">${fmtCredit(c.credit)}</td>
               <td>${c.eval && c.eval.count ? `<b>${c.eval.avg.toFixed(1)}</b>（${c.eval.count}条）` : '<span class="score-none">暂无评价</span>'}</td>
               <td class="num">${c.eval && c.eval.count ? c.eval.count : "-"}</td>
@@ -311,7 +312,9 @@ const quiz = {
     secD.className = "rec-section";
     secD.innerHTML = `
       <h2><span class="tag-icon bar-free">🆓</span> 通识选修推荐（本学期 1-2 门即可）</h2>
-      <div class="rec-desc">通识共 11 学分分四年完成，四大课组每课组至少 2 学分。以下每组给你约 12 门高分课慢慢挑，已按「学生口碑 + 推荐度」排序，带 ⭐ 的表示有真实评价。</div>`;
+      <div class="rec-desc">通识共 11 学分分四年完成，四大课组<b>每课组至少 2 学分</b>。先认识一下四大课组分别学什么：</div>
+      ${liberalIntroHTML()}
+      <div class="rec-desc mt16">以下按你选择的类别推荐高分课（每组约 12 门，已按「学生口碑 + 推荐度」排序，⭐ 表示有真实评价）：</div>`;
     if (rec.liberal.length) {
       rec.liberal.forEach(g => {
         const blk = document.createElement("div");
@@ -377,19 +380,45 @@ const quiz = {
 };
 
 /* ---------- 计划表格 ---------- */
+/** 取课程介绍：人工 intro 优先，否则 thubook 点评摘录 */
+function courseDesc(c) {
+  if (c.intro) return c.intro;
+  const ev = c.eval;
+  if (ev && ev.reviews && ev.reviews.length) {
+    const t = (ev.reviews[0].comment || "").replace(/\s+/g, " ").trim();
+    if (t) return "学生点评：" + t.slice(0, 70) + (t.length > 70 ? "…" : "");
+  }
+  return "";
+}
+/** 点评摘录（短，用于课程名下方小字） */
+function reviewSnippet(c) {
+  const ev = c.eval;
+  if (ev && ev.reviews && ev.reviews.length) {
+    const t = (ev.reviews[0].comment || "").replace(/\s+/g, " ").trim();
+    if (t) return "💬 " + t.slice(0, 40) + (t.length > 40 ? "…" : "");
+  }
+  return "";
+}
+
 function planTableHTML(title, courses, isMaybe) {
   return `
     <div class="module-block">
       <div class="mod-head">${esc(title)} <span class="mod-req">${isMaybe ? "⚠️ 以教务系统为准" : ""}</span></div>
       <div style="overflow-x:auto"><table class="tbl">
-        <tr><th style="width:60px">学分</th><th>课程</th><th>说明</th><th style="width:150px">学生评价</th></tr>
-        ${courses.map(c => `
+        <tr><th style="width:60px">学分</th><th>课程</th><th>课程介绍</th><th style="width:150px">学生评价</th></tr>
+        ${courses.map(c => {
+          const desc = courseDesc(c);
+          return `
           <tr>
             <td class="num"><b>${fmtCredit(c.credit)}</b></td>
-            <td>${esc(c.name)}${c.id ? `<span class="small muted"> · ${esc(c.id)}</span>` : ""}</td>
-            <td class="small">${esc(c.note || "")}</td>
+            <td>${esc(c.name)}${c.id ? `<span class="small muted"> · ${esc(c.id)}</span>` : ""}
+              ${c.note ? `<div class="small muted">📌 ${esc(c.note)}</div>` : ""}
+              ${!desc && c.eval && c.eval.count ? `<div class="small muted">${esc(reviewSnippet(c))}</div>` : ""}
+            </td>
+            <td class="small">${desc ? esc(desc) : '<span class="muted">—</span>'}</td>
             <td>${scoreBadge(c.eval, true)}</td>
-          </tr>`).join("")}
+          </tr>`;
+        }).join("")}
       </table></div>
     </div>`;
 }
@@ -401,21 +430,37 @@ function introCardHTML(ic) {
       <div class="course-name">${ic.icon || ""} ${esc(ic.name)}</div>
       <div class="course-meta"><span>1 学分 · 四选二</span></div>
       <div class="course-meta"><span class="small">通向：${(ic.leads || []).map(esc).join(" / ")}</span></div>
+      ${ic.intro ? `<p class="small mt8" style="color:var(--ink-2)">${esc(ic.intro)}</p>` : ""}
       <div class="course-meta">${scoreBadge(ic.eval, true)}</div>
       ${reviewBlock(ic.eval, 1)}
     </div>`;
 }
 
 /* ---------- 通识推荐表格（更多选择 + 推荐排序） ---------- */
+const LIBERAL_INTROS = [
+  { icon: "📚", name: "人文课组", credit: "至少 2 学分", desc: "文学、历史、哲学、艺术史、国学等人文经典。多为读书讨论 + 论文，适合想沉淀人文素养、练习写作思辨的同学；通常不点名、节奏轻松，但论文要认真写。" },
+  { icon: "🏛️", name: "社科课组", credit: "至少 2 学分", desc: "经济、管理、社会学、心理、国际关系等。贴近现实社会议题，不少课与政策/商业案例结合，适合想了解社会运行规律、培养管理与宏观思维的同学。" },
+  { icon: "🎨", name: "艺术课组", credit: "至少 2 学分", desc: "音乐、美术、电影、戏剧、舞蹈的鉴赏与实践。很多是赏析型小课（看展/听音乐/观影+讨论），给理工科生活加一点调剂，期末多为报告或作品。" },
+  { icon: "🔬", name: "科学课组", credit: "至少 2 学分", desc: "科技前沿、工程导论、AI、能源、环境、脑科学等面向大众的通识科学课。与探微专业互补性强，部分 1 学分小课时间成本低，适合拓宽学术视野。" },
+];
+function liberalIntroHTML() {
+  return `<div class="grid-2">${LIBERAL_INTROS.map(c => `
+    <div class="course-card">
+      <div class="course-name">${c.icon} ${esc(c.name)} <span class="pill pill-free">${esc(c.credit)}</span></div>
+      <p class="small mt8" style="color:var(--ink-2)">${esc(c.desc)}</p>
+    </div>`).join("")}</div>`;
+}
+
 function liberalTableHTML(g) {
   const rows = g.items.map((c, i) => {
     const ev = c.eval;
     const rated = ev && ev.count;
     const rank = i + 1;
+    const snippet = reviewSnippet(c);
     return `
       <tr>
         <td class="num">${rank}</td>
-        <td>${esc(c.name)}</td>
+        <td>${esc(c.name)}${snippet ? `<div class="small muted">${esc(snippet)}</div>` : ""}</td>
         <td class="num">${fmtCredit(c.credit)}</td>
         <td>${rated ? `<span class="stars">${"★".repeat(Math.round(ev.avg))}${"☆".repeat(5 - Math.round(ev.avg))}</span> <b>${ev.avg.toFixed(1)}</b>` : '<span class="score-none">暂无评价</span>'}</td>
         <td class="num">${rated ? `${ev.count} 条` : "-"}</td>
