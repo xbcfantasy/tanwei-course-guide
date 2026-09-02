@@ -1,118 +1,167 @@
 /* ============================================================
-   问卷定义：询问用户喜好
+   问卷定义 v2：新生模式（方向后置）
+   面向 26 级新生：大二春才确认方向，问卷先了解新生的
+   学科兴趣 / 学业风格 / 负荷偏好 / 英语 / 通识拓展，
+   输出「大一上选课计划书」；方向作为可选的进阶问题。
    ============================================================ */
 "use strict";
 
+/**
+ * QUIZ 问题列表
+ * type: single | multi
+ * condition: (answers) => 该题是否显示（不填则总是显示）
+ * optional: 可跳过的题（"下一步"在无选择时也可继续）
+ */
 const QUIZ = [
   {
-    id: "direction",
-    title: "你最想选择的工科衔接方向是？",
-    desc: "大二春季学期确认方向，选课将按此方向为你规划。也可先选“还没想好”，看看基础课怎么选。",
+    id: "awareness",
+    title: "你现在了解探微书院的工科衔接方向吗？",
+    desc: "方向是大二春季学期才确认的，不用着急。先告诉我你的了解程度，我好按需安排介绍。",
     type: "single",
     options: [
-      { value: "che", title: "化学工程与工业生物工程", sub: "化工原理·反应工程·工艺设计（双学位，专业必修36+限选11学分）" },
-      { value: "polymer", title: "高分子材料与工程", sub: "高分子化学/物理·聚合物成型加工（双学位，专业必修37+限选10学分）" },
-      { value: "env", title: "环境工程", sub: "水·大气·固废处理工程（双学位，专业必修25+限选22学分）" },
-      { value: "water", title: "给排水科学与工程", sub: "城市水系统·饮用水处理（双学位，专业必修37+限选10学分）" },
-      { value: "bme", title: "生物医学工程", sub: "医学影像·神经工程·微纳医学（双学位，专业必修38+限选9学分）" },
-      { value: "smart_chem", title: "交叉工程·智能化工", sub: "化工+AI：机器学习·智能化工（双学位，总学分160）" },
-      { value: "env_ai", title: "交叉工程·环境人工智能", sub: "环境+AI：数据·模型·智慧环境（双学位）" },
-      { value: "water_digital", title: "交叉工程·数智水务", sub: "水务+AI：智慧水务·智能控制（双学位）" },
-      { value: "smart_med", title: "交叉工程·智能医学工程", sub: "医学+AI：影像·神经·生物信息（双学位）" },
-      { value: "pharmacy", title: "药学方向（单学位）", sub: "药物化学·药剂·药理（单学位，总学分146，专业限选至少3门）" },
-      { value: "undecided", title: "还没想好", sub: "先帮你规划书院基础必修与通识课程" },
+      { value: "none", title: "完全没概念", sub: "十个方向听起来都差不多（多数新生是这样，很正常）" },
+      { value: "some", title: "知道大概", sub: "听说过化工、环境、生医这些名字，但不清楚差别" },
+      { value: "prefer", title: "已经有模糊倾向", sub: "对某个方向比较感兴趣，想提前了解它的课程" },
+    ],
+  },
+  {
+    id: "interests",
+    title: "你对哪些学科领域最有兴趣？（可多选）",
+    desc: "这会影响我们推荐大一期间选修哪两门「方向导论课」，以及通识课怎么选。",
+    type: "multi",
+    options: [
+      { value: "chem", title: "化学", sub: "分子、反应、材料合成" },
+      { value: "bio", title: "生物/医药", sub: "细胞、基因、药物、人体" },
+      { value: "env", title: "环境/可持续", sub: "水、大气、双碳、生态" },
+      { value: "phys", title: "物理/工程", sub: "力热电、器件、工程设计" },
+      { value: "ai", title: "编程/AI/数据", sub: "代码、机器学习、智能化" },
+      { value: "all", title: "都想试试", sub: "兴趣广泛，还没找到最喜欢的" },
+    ],
+  },
+  {
+    id: "intro_courses",
+    title: "大一要修 2 门方向导论课（四选二），你倾向选哪两门？",
+    desc: "这四门 1 学分的导论课是「探微各方向的窗口」——选课相当于提前逛一圈，听听看哪个方向对味。选 2 门。",
+    type: "multi",
+    max: 2,
+    options: [
+      { value: "che_intro", title: "⚗️ 化学工程与高分子科学导论", sub: "通向：化工 / 高分子 / 智能化工", intro: "化学工程与高分子科学导论" },
+      { value: "env_intro", title: "🌱 环境科学与工程前沿导论", sub: "通向：环境 / 给排水 / 环境AI / 数智水务", intro: "环境科学与工程前沿导论" },
+      { value: "bme_intro", title: "🫀 生物医学工程专业导论", sub: "通向：生医工程 / 智能医学", intro: "生物医学工程专业导论" },
+      { value: "pharma_intro", title: "💊 药学导论", sub: "通向：药学方向", intro: "药学导论" },
     ],
   },
   {
     id: "style",
-    title: "你更喜欢哪种学习/工作方式？（可多选）",
-    desc: "这会影响限选模块和任选课程的方向推荐。",
-    type: "multi",
+    title: "你的学业风格更接近？",
+    desc: "决定我们对学分负荷和课程搭配的建议。",
+    type: "single",
     options: [
-      { value: "theory", title: "理论推导与计算", sub: "物理化学、数学建模、仿真模拟" },
-      { value: "lab", title: "实验动手操作", sub: "化学/生物/化工实验、仪器分析" },
-      { value: "engineering", title: "工程设计与实践", sub: "工艺设计、设备设计、工程实践" },
-      { value: "ai", title: "编程与人工智能", sub: "机器学习、数据分析、AI交叉应用" },
-      { value: "biomed", title: "生物医药", sub: "分子生物学、药学、医学工程" },
-      { value: "sustain", title: "环境与可持续发展", sub: "水处理、双碳、环境治理" },
-    ],
-  },
-  {
-    id: "course_priority",
-    title: "选课时你最看重什么？（可多选，最多3项）",
-    desc: "决定推荐排序时的权重。",
-    type: "multi",
-    max: 3,
-    options: [
-      { value: "grade", title: "给分友好", sub: "绩点友好，避免拉低 GPA" },
-      { value: "light", title: "作业少、负担轻", sub: "留出时间做科研/社工/实习" },
-      { value: "fun", title: "内容有趣", sub: "上课体验好、有意思" },
-      { value: "teacher", title: "老师口碑好", sub: "讲得好、负责任" },
-      { value: "rigorous", title: "严格但干货多", sub: "学得扎实，为科研/深造打基础" },
+      { value: "competitive", title: "想冲高绩点", sub: "为保研/出国打基础，每门课都要认真对待" },
+      { value: "steady", title: "稳扎稳打", sub: "按节奏来，保证学习质量也留出生活空间" },
+      { value: "explore", title: "多留时间探索", sub: "想参加社团/社工/科研入门，别把课排太满" },
     ],
   },
   {
     id: "load",
-    title: "你每学期的学分负荷打算？",
-    desc: "影响推荐的学分规划建议。",
+    title: "第一学期你打算选多少学分？",
+    desc: "新生第一学期建议 17-20 学分（约 6-7 门课），别贪多——先适应大学节奏。",
     type: "single",
     options: [
-      { value: "light", title: "轻松模式", sub: "每学期约 16-19 学分，多留时间给课外" },
-      { value: "normal", title: "标准模式（推荐）", sub: "每学期约 20-23 学分，四年稳扎稳打" },
-      { value: "heavy", title: "学霸模式", sub: "每学期 24+ 学分，提前修完多修任选" },
-    ],
-  },
-  {
-    id: "plan",
-    title: "你未来的规划更偏向？",
-    desc: "影响科研训练、实践类课程与任选方向的建议。",
-    type: "single",
-    options: [
-      { value: "grad", title: "保研/深造（科研导向）", sub: "重视科研训练、高阶课程与导师推荐" },
-      { value: "abroad", title: "出国深造", sub: "重视 GPA、英文课程与国际视野" },
-      { value: "work", title: "就业/创业", sub: "重视工程实践、项目经历与行业方向" },
-      { value: "undecided", title: "还没想好", sub: "先保持 GPA 与方向弹性" },
+      { value: "light", title: "少而精（17 学分左右）", sub: "把数学和化学基础打牢，多适应大学生活" },
+      { value: "normal", title: "标准（19-20 学分）", sub: "基础课 + 1-2 门通识，节奏均衡" },
+      { value: "heavy", title: "多修一些（21+ 学分）", sub: "基础好/想提前探索，可多修通识或加选课程" },
     ],
   },
   {
     id: "english",
-    title: "你能接受英文授课的课程吗？",
-    desc: "部分专业必修与通识课程有英文版可选。",
+    title: "英语方面的情况？",
+    desc: "入学后会有英语分级考试，决定你的英语课组（C1/C2/B/A）。",
     type: "single",
     options: [
-      { value: "ok", title: "完全可以", sub: "英文课不影响学习效果，甚至想练英语" },
-      { value: "some", title: "少量可以", sub: "个别核心课可接受英文版" },
-      { value: "no", title: "偏好中文", sub: "尽量选中文授课，避免英文课程" },
+      { value: "c1", title: "基础一般，可能 C1/C2 组", sub: "英语综合训练为主" },
+      { value: "ba", title: "还不错，可能 B/A 组", sub: "可考虑英文授课课程" },
+      { value: "ok", title: "不介意英文课", sub: "能接受英文教材/全英文课程" },
+      { value: "no", title: "偏好中文授课", sub: "尽量避开英文课程" },
     ],
   },
   {
     id: "extra",
-    title: "除了培养方案内的课程，还想拓展哪些方向？",
-    desc: "用于推荐通识任选课（每课组至少2学分）。",
+    title: "通识选修课（四大课组，每课组至少 2 学分）想先从哪类开始？",
+    desc: "通识选修共 11 学分，分散在四年完成。大一上选 1-2 门即可，这里决定先推荐哪类高分课。",
     type: "multi",
-    max: 3,
+    max: 2,
     options: [
-      { value: "humanity", title: "人文与历史", sub: "文学、历史、哲学、艺术史" },
-      { value: "social", title: "社科与经济", sub: "经济、管理、社会学、心理" },
-      { value: "art", title: "艺术与审美", sub: "音乐、美术、电影、戏剧" },
-      { value: "science", title: "科技前沿", sub: "AI、能源、新材料、脑科学" },
-      { value: "none", title: "不拓展", sub: "按培养方案最低要求来" },
+      { value: "science", title: "科技前沿（科学课组）", sub: "AI、能源、新材料——适合理工科拓展" },
+      { value: "humanity", title: "人文历史（人文课组）", sub: "文学、历史、哲学、艺术史" },
+      { value: "social", title: "社科经济（社科课组）", sub: "经济、管理、社会学、心理" },
+      { value: "art", title: "艺术审美（艺术课组）", sub: "音乐、美术、电影、戏剧" },
+      { value: "ethic", title: "伦理类课程", sub: "建议探微学生选 1 门工程/科学伦理（通识要求建议）" },
+    ],
+  },
+  {
+    id: "direction",
+    title: "（可选）你倾向的方向是？",
+    desc: "大二春才正式确认，现在只是提前预览。不确定就直接跳过这题。",
+    type: "single",
+    condition: (a) => (a.awareness || []).includes("prefer"),
+    optional: true,
+    options: [
+      { value: "che", title: "化学工程与工业生物工程", sub: "化工原理·反应工程·工艺设计" },
+      { value: "polymer", title: "高分子材料与工程", sub: "高分子化学/物理·成型加工" },
+      { value: "env", title: "环境工程", sub: "水·大气·固废处理" },
+      { value: "water", title: "给排水科学与工程", sub: "城市水系统·饮用水" },
+      { value: "bme", title: "生物医学工程", sub: "医学影像·神经工程" },
+      { value: "smart_chem", title: "交叉工程·智能化工", sub: "化工+AI" },
+      { value: "env_ai", title: "交叉工程·环境AI", sub: "环境+AI" },
+      { value: "water_digital", title: "交叉工程·数智水务", sub: "水务+AI" },
+      { value: "smart_med", title: "交叉工程·智能医学", sub: "医学+AI" },
+      { value: "pharmacy", title: "药学方向（单学位）", sub: "药物化学·药理" },
+      { value: "skip", title: "先跳过，我再想想", sub: "大二春之前都可以慢慢了解" },
     ],
   },
 ];
 
-/** 每个方向的关键词 → 用于限选模块兴趣打分 */
+/** 可见问题列表（按 condition 过滤） */
+function visibleQuestions(answers) {
+  return QUIZ.filter(q => !q.condition || q.condition(answers));
+}
+
+/** 方向 → 对应的导论课与方向域说明 */
+const DIRECTION_INTRO = {
+  che: { intro: "化学工程与高分子科学导论", note: "通向化工/高分子/智能化工", icon: "⚗️" },
+  polymer: { intro: "化学工程与高分子科学导论", note: "通向高分子/化工", icon: "🧪" },
+  env: { intro: "环境科学与工程前沿导论", note: "通向环境工程/环境AI", icon: "🌱" },
+  water: { intro: "环境科学与工程前沿导论", note: "通向给排水/数智水务", icon: "💧" },
+  bme: { intro: "生物医学工程专业导论", note: "通向生医工程/智能医学", icon: "🫀" },
+  smart_chem: { intro: "化学工程与高分子科学导论", note: "智能化工根植于化工", icon: "🤖" },
+  env_ai: { intro: "环境科学与工程前沿导论", note: "环境AI根植于环境", icon: "🌍" },
+  water_digital: { intro: "环境科学与工程前沿导论", note: "数智水务根植于环境/给排水", icon: "🌊" },
+  smart_med: { intro: "生物医学工程专业导论", note: "智能医学根植于生医", icon: "🧠" },
+  pharmacy: { intro: "药学导论", note: "药学方向", icon: "💊" },
+};
+
+/** 兴趣标签 → 推荐先导课 */
+const INTEREST_INTRO = {
+  chem: ["化学工程与高分子科学导论", "药学导论"],
+  bio: ["生物医学工程专业导论", "药学导论"],
+  env: ["环境科学与工程前沿导论"],
+  phys: ["化学工程与高分子科学导论", "生物医学工程专业导论"],
+  ai: ["环境科学与工程前沿导论", "化学工程与高分子科学导论"],
+};
+
+/** 方向模块标签（限选模块兴趣打分，供方向预览用） */
 const DIRECTION_MODULE_TAGS = {
-  che: { "生物医药模块": ["biomed", "lab"], "能源材料模块": ["theory", "engineering", "sustain"], "人工智能与智慧化工模块": ["ai", "theory"], "先进高分子模块": ["lab", "engineering"], "绿色资源模块": ["sustain", "engineering"], "通识模块": ["engineering"] },
-  polymer: { "先进高分子模块": ["lab", "engineering"], "生物医药模块": ["biomed"], "能源材料模块": ["theory"], "人工智能与智慧化工模块": ["ai"], "绿色资源模块": ["sustain"], "通识模块": [] },
-  env: { "介质类限选专业课（至少选2门）": ["sustain", "engineering"], "环境人工智能": ["ai", "sustain"], "环境科学与技术": ["theory", "lab"], "环境工程与设计": ["engineering"], "环境管理与规划": ["theory", "sustain"], "环境实践与决策": ["engineering"], "全球胜任力": ["sustain"], "海外交流": [] },
-  water: { "给排水方向核心课": ["sustain", "engineering"], "环境人工智能": ["ai"], "科学与技术": ["theory"], "工程与设计": ["engineering"], "管理与规划": ["theory"], "实践与决策": ["engineering"], "全球胜任力": [] },
-  bme: { "微纳医学课组（三选一）": ["biomed", "lab"], "神经工程课组（三选一）": ["biomed", "ai", "theory"], "医学影像课组（三选一）": ["biomed", "ai", "theory"] },
-  smart_chem: { "计算机与智能科学子模块": ["ai", "theory"], "化学工程与高分子子模块（至少4学分）": ["engineering", "lab"], "智能化工进阶实验子模块（至少2学分）": ["lab", "engineering"] },
-  env_ai: { "介质类专业课（7学分，至少两门）": ["sustain", "engineering"], "环境人工智能（10学分）": ["ai", "sustain"] },
-  water_digital: { "给排水方向核心课（5学分）": ["sustain", "engineering"], "环境人工智能（10学分）": ["ai", "sustain"] },
-  smart_med: { "微纳医学课组（三选一）": ["biomed", "lab"], "神经工程课组（三选一）": ["biomed", "ai"], "医学影像课组（三选一）": ["biomed", "ai"] },
-  pharmacy: { "限选（11学分，至少选3门课）": ["biomed", "lab"], "任选课组": ["biomed", "theory"] },
+  che: { "生物医药模块": ["bio", "chem"], "能源材料模块": ["phys", "chem"], "人工智能与智慧化工模块": ["ai"], "先进高分子模块": ["chem"], "绿色资源模块": ["env"], "通识模块": [] },
+  polymer: { "先进高分子模块": ["chem"], "生物医药模块": ["bio"], "能源材料模块": ["phys"], "人工智能与智慧化工模块": ["ai"], "绿色资源模块": ["env"], "通识模块": [] },
+  env: { "介质类限选专业课（至少选2门）": ["env"], "环境人工智能": ["ai", "env"], "环境科学与技术": ["chem"], "环境工程与设计": ["phys"], "环境管理与规划": ["env"], "环境实践与决策": ["phys"], "全球胜任力": ["env"], "海外交流": [] },
+  water: { "给排水方向核心课": ["env"], "环境人工智能": ["ai"], "科学与技术": ["chem"], "工程与设计": ["phys"], "管理与规划": ["env"], "实践与决策": ["phys"], "全球胜任力": [] },
+  bme: { "微纳医学课组（三选一）": ["bio", "phys"], "神经工程课组（三选一）": ["bio", "ai"], "医学影像课组（三选一）": ["bio", "ai", "phys"] },
+  smart_chem: { "计算机与智能科学子模块": ["ai"], "化学工程与高分子子模块（至少4学分）": ["chem", "phys"], "智能化工进阶实验子模块（至少2学分）": ["chem", "phys"] },
+  env_ai: { "介质类专业课（7学分，至少两门）": ["env"], "环境人工智能（10学分）": ["ai", "env"] },
+  water_digital: { "给排水方向核心课（5学分）": ["env"], "环境人工智能（10学分）": ["ai", "env"] },
+  smart_med: { "微纳医学课组（三选一）": ["bio"], "神经工程课组（三选一）": ["bio", "ai"], "医学影像课组（三选一）": ["bio", "ai"] },
+  pharmacy: { "限选（11学分，至少选3门课）": ["bio", "chem"], "任选课组": ["bio"] },
 };
 
 /** 通识任选 → 类别映射 */

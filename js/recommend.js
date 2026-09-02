@@ -1,331 +1,215 @@
 /* ============================================================
-   推荐引擎：按"必选 / 限选 / 任选"框架生成选课指导
+   推荐引擎 v2：新生模式
+   输出「大一上选课计划书」：
+   ① 大一上核心必选清单（推断版，标注供参考）
+   ② 学分预算建议（按负荷偏好）
+   ③ 先导课（方向导论）推荐——直接按用户四选二的答案
+   ④ 通识选修推荐（按兴趣 + 高分评价）
+   ⑤ 方向提前预览（可选：用户有倾向时）
    ============================================================ */
 "use strict";
 
-/** 生成推荐结果 */
-function generateRecommendations(answers) {
+/* 答案解包助手：问卷答案统一存为数组（单选为单元素数组） */
+const one = (ans, k) => { const v = ans[k]; return Array.isArray(v) ? v[0] : v; };
+const many = (ans, k) => { const v = ans[k]; return Array.isArray(v) ? v : (v ? [v] : []); };
+
+/* ---------- 大一上核心必选清单（推断参考版） ----------
+   依据：2026级培养方案 + 清华理工科第一学期常规安排。
+   标注「供参考」：以入学后教务系统与书院通知为准。
+   eval 字段由运行时从站点数据按课程名/编号补齐。 */
+const FRESHMAN_FALL_CORE = [
+  { id: "10421055", name: "微积分A(1)", credit: 5, note: "数学必修·第一学期核心课，学分最重，务必跟上节奏", attr: "必修", scope: "definite" },
+  { id: "10440144", name: "化学原理", credit: 4, note: "探微核心基础课·为后续有机/物化打底", attr: "必修", scope: "definite" },
+  { id: "", name: "计算机程序设计基础（三选一）", credit: 2, note: "三选一：计算机程序设计基础 / 信息科学理论与实践 / Python版", attr: "必修", scope: "definite" },
+  { id: "", name: "大学生思想文化素养", credit: 2, note: "思政必修·培养方案标注大一秋", attr: "必修", scope: "definite" },
+  { id: "", name: "体育(1)", credit: 1, note: "第1-4学期体育必修，毕业须过游泳测试", attr: "必修", scope: "definite" },
+  { id: "", name: "英语分级课", credit: 2, note: "按入学分级考试分到 C1/C2/B/A 课组，学期内完成对应级别", attr: "必修", scope: "definite" },
+  { id: "10421324", name: "线性代数", credit: 4, note: "数学必修·若本学期未开则顺延，以教务安排为准", attr: "必修", scope: "maybe" },
+  { id: "10430484", name: "大学物理(1)", credit: 4, note: "三选一（大学物理B(1)/大学物理(1)/英文版）·开课学期以教学计划为准", attr: "必修", scope: "maybe" },
+];
+
+/** 先导课四选二：选项 value → {课程名, 编号, 方向说明} */
+const INTRO_COURSES = {
+  che_intro: { id: "30340451", name: "化学工程与高分子科学导论", leads: ["化学工程与工业生物工程", "高分子材料与工程", "智能化工"], icon: "⚗️" },
+  env_intro: { id: "30050411", name: "环境科学与工程前沿导论", leads: ["环境工程", "给排水科学与工程", "环境人工智能", "数智水务"], icon: "🌱" },
+  bme_intro: { id: "34000271", name: "生物医学工程专业导论", leads: ["生物医学工程", "智能医学工程"], icon: "🫀" },
+  pharma_intro: { id: "44000061", name: "药学导论", leads: ["药学方向"], icon: "💊" },
+};
+
+/** 通识伦理类关键词 */
+const ETHIC_KEYWORDS = ["伦理", "工程伦理", "科学伦理", "人工智能伦理", "生命伦理", "科技伦理"];
+
+/* ============================================================
+   主入口：新生计划生成
+   ============================================================ */
+function generateFreshmanPlan(answers) {
   const data = SITE_DATA;
-  const direction = answers.direction || "undecided";
-  const style = answers.style || [];
-  const priority = answers.course_priority || [];
-  const load = answers.load || "normal";
-  const plan = answers.plan || "undecided";
-  const english = answers.english || "some";
-  const extra = answers.extra || [];
 
-  const interestWeight = buildInterestWeight(style, priority, plan, extra);
+  // ---------- ① 大一上核心必选 ----------
+  const fallCore = FRESHMAN_FALL_CORE.map(c => {
+    const ev = findEval(c);
+    return { ...c, eval: ev, _attr: c.attr };
+  });
+  const definite = fallCore.filter(c => c.scope === "definite");
+  const maybe = fallCore.filter(c => c.scope === "maybe");
+  const definiteCredit = definite.reduce((s, c) => s + c.credit, 0);
+  const maybeCredit = maybe.reduce((s, c) => s + c.credit, 0);
 
-  // ---------- 1. 必选 ----------
-  const required = buildRequired(data, direction, english);
+  // ---------- ② 学分预算 ----------
+  const loadAdvice = loadAdviceFor(answers, definiteCredit, maybeCredit);
 
-  // ---------- 2. 限选 ----------
-  const limited = direction === "undecided"
-    ? buildUndecidedLimited(data, interestWeight)
-    : buildLimited(data, direction, interestWeight, english);
+  // ---------- ③ 先导课（用户四选二直接答案） ----------
+  const chosenIntro = many(answers, "intro_courses").map(v => INTRO_COURSES[v]).filter(Boolean);
+  const introWithEval = chosenIntro.map(ic => ({ ...ic, eval: findEvalByName(ic.name) }));
+  const allIntro = Object.values(INTRO_COURSES).map(ic => ({ ...ic, eval: findEvalByName(ic.name) }));
 
-  // ---------- 3. 任选 ----------
-  const free = buildFree(data, direction, interestWeight, extra, english);
+  // ---------- ④ 通识推荐 ----------
+  const liberal = buildLiberalRecs(answers, data);
 
-  // ---------- 4. 学分规划 ----------
-  const planCells = buildCreditPlan(data, direction, load);
-
-  return { direction, required, limited, free, planCells, interestWeight };
-}
-
-/* ---------------- 兴趣权重 ---------------- */
-function buildInterestWeight(style, priority, plan, extra) {
-  const w = {};
-  const add = (k, v) => { w[k] = (w[k] || 0) + v; };
-
-  // 学习风格
-  style.forEach(s => add(s, 3));
-
-  // 课程偏好
-  if (priority.includes("grade")) { add("grade", 2); }
-  if (priority.includes("light")) { add("light", 2); }
-  if (priority.includes("fun")) { add("fun", 1.5); }
-  if (priority.includes("teacher")) { add("teacher", 1.5); }
-  if (priority.includes("rigorous")) { add("rigorous", 1); add("theory", 1); add("lab", 1); }
-
-  // 未来规划
-  if (plan === "grad") { add("lab", 1); add("theory", 1); add("rigorous", 1); }
-  if (plan === "abroad") { add("english", 1.5); add("grade", 1); }
-  if (plan === "work") { add("engineering", 1.5); }
-
-  // 任选拓展方向
-  extra.forEach(e => add(e, 1.5));
-  if (extra.includes("science")) add("ai", 1);
-
-  return w;
-}
-
-/** 综合得分：兴趣匹配 + 评价分 + 点评内容分析 + 负荷调整 */
-function scoreCourse(course, interestWeight, styleTags) {
-  let score = 0;
-  const tags = course.tags || styleTags || [];
-  tags.forEach(t => { score += (interestWeight[t] || 0) * 0.6; });
-
-  // 评价分：avg 5 → +3, 4 → +2, 3 → +1, 无评价 → +0.5
-  const ev = course.eval;
-  if (ev && ev.count) {
-    score += Math.max(0.5, ev.avg - 2.5);
-    if (interestWeight["grade"]) score += (ev.avg - 3) * 0.8;
-    if (ev.count >= 3 && interestWeight["teacher"]) score += 0.5;
-  } else {
-    score += 0.3;
+  // ---------- ⑤ 方向预览（可选） ----------
+  const direction = one(answers, "direction");
+  let preview = null;
+  if (direction && direction !== "skip" && data.pyfa.majors[direction]) {
+    preview = buildDirectionPreview(data.pyfa.majors[direction], direction, answers);
   }
 
-  // 点评内容关键词分析：让真实点评影响排序
-  if (ev && ev.reviews && ev.reviews.length) {
-    const text = ev.reviews.map(r => r.comment || "").join(" ");
-    const has = (re) => re.test(text);
-    if (interestWeight["fun"] && has(/有趣|有意思|好玩|生动|快乐|愉快|很棒|推荐/)) score += 0.7;
-    if (interestWeight["grade"] && has(/给分好|给分高|给分友好|满分|A\+|绩点友好|不卡分|给分宽松/)) score += 0.7;
-    if (interestWeight["grade"] && has(/给分低|给分差|卡分|严格压分|给分不好/)) score -= 0.6;
-    if (interestWeight["light"] && has(/作业少|作业不多|负担轻|轻松|任务量小|不费时/)) score += 0.6;
-    if (interestWeight["light"] && has(/作业多|任务重|负担重|熬夜|强度大/)) score -= 0.5;
-    if (interestWeight["teacher"] && has(/老师好|老师负责|老师耐心|讲得好|幽默|认真|nice|温柔/)) score += 0.6;
-    if (interestWeight["rigorous"] && has(/干货|收获大|学得扎实|严格但|有挑战|内容丰富|受益匪浅/)) score += 0.6;
-    score += 0.2; // 有详细点评本身加分
+  // ---------- ⑥ 学业风格/方向意识提示 ----------
+  const styleTips = styleTipsFor(answers);
+
+  return {
+    fallCore: { definite, maybe, definiteCredit, maybeCredit },
+    loadAdvice,
+    introCourses: { chosen: introWithEval, all: allIntro },
+    liberal,
+    directionPreview: preview,
+    styleTips,
+  };
+}
+
+/* ---------- 在站点数据中按编号/名称找评价 ---------- */
+function findEval(c) {
+  if (c.id) {
+    const hit = SITE_DATA.zhjwxk.courses.find(x => x.id === c.id && x.eval && x.eval.count);
+    if (hit) return hit.eval;
   }
-  return score;
+  return findEvalByName(c.name.replace(/（三选一）.*$/, ""));
+}
+function findEvalByName(name) {
+  const hit = SITE_DATA.zhjwxk.courses.find(x => x.name === name && x.eval && x.eval.count);
+  if (hit) return hit.eval;
+  const hit2 = SITE_DATA.zhjwxk.courses.find(x => x.name.indexOf(name.slice(0, 6)) >= 0 && x.eval && x.eval.count);
+  return hit2 ? hit2.eval : null;
 }
 
-function sortByScore(list) {
-  return list.sort((a, b) => (b._score || 0) - (a._score || 0));
-}
-
-/* ---------------- 必选 ---------------- */
-function buildRequired(data, direction, english) {
-  const college = data.pyfa.college;
-  const sections = [];
-
-  // 书院基础必修
-  const mathList = flattenCourses(college.math.required, "书院基础·数学", ["math", "theory"]);
-  const mathAlt = flattenCourses(college.math.limited, "书院基础·数学", ["math", "theory"]);
-  const physList = flattenCourses(college.physics.required, "书院基础·物理", ["physics", "theory"]);
-  const chemList = flattenCourses(college.chem_bio.required, "书院基础·化学生物", ["chem", "lab"]);
-  const csList = flattenCourses(college.cs.required, "书院基础·信计", ["cs", "ai"]);
-  const pracList = flattenCourses(college.practice.required, "书院基础·书院实践", ["practice", "lab"]);
-
-  sections.push({
-    title: "数学课程（17学分）",
-    desc: "微积分A、线性代数为必修；概率论三门任选其一",
-    courses: [...mathList, ...mathAlt],
-    totalCredit: "17学分",
-  });
-  sections.push({
-    title: "物理课程（9学分）",
-    desc: "大学物理（1）（2）各三选一 + 探微定制大学物理实验",
-    courses: physList,
-    totalCredit: "9学分",
-  });
-  sections.push({
-    title: "化学生物课程（21学分）",
-    desc: "化学原理、有机化学A、生物化学为探微核心必修",
-    courses: chemList,
-    totalCredit: "21学分",
-  });
-  sections.push({
-    title: "信计课程（6学分）",
-    desc: "程序设计三选一 + 数据结构与算法 + 人工智能导论二选一",
-    courses: csList,
-    totalCredit: "6学分",
-  });
-  sections.push({
-    title: "书院实践（13学分）",
-    desc: "专业导论四选二、科学训练I/II、综合论文训练",
-    courses: pracList,
-    totalCredit: "13学分",
-  });
-
-  // 专业课必修
-  if (direction !== "undecided") {
-    const mj = data.pyfa.majors[direction];
-    if (mj && mj.required) {
-      sections.push({
-        title: `${mj.name}·专业课必修（${mj.required_credit}学分）`,
-        desc: `本方向必修${mj.required.length}门专业课程`,
-        courses: flattenCourses(mj.required, "专业必修", majorTags(direction)),
-        totalCredit: mj.required_credit + "学分",
-      });
-    }
-  }
-  return sections;
-}
-
-function majorTags(direction) {
+/* ---------- 学分预算建议 ---------- */
+function loadAdviceFor(answers, definiteCredit, maybeCredit) {
+  const load = one(answers, "load") || "normal";
+  const style = one(answers, "style") || "steady";
   const map = {
-    che: ["chem", "engineering"], polymer: ["chem", "engineering", "lab"],
-    env: ["sustain", "engineering"], water: ["sustain", "engineering"],
-    bme: ["biomed", "engineering"], smart_chem: ["chem", "ai"],
-    env_ai: ["sustain", "ai"], water_digital: ["sustain", "ai"],
-    smart_med: ["biomed", "ai"], pharmacy: ["biomed", "lab"],
+    light: { label: "少而精（17 学分左右）", total: 17, note: "把微积分、化学原理这两门最重的课学扎实，余力探索大学生活。" },
+    normal: { label: "标准（19-20 学分）", total: 19.5, note: "核心课 + 先导课 + 1-2 门通识，节奏均衡。" },
+    heavy: { label: "多修一些（21+ 学分）", total: 21.5, note: "基础扎实可加选通识/旁听方向课，注意别挤占主课时间。" },
   };
-  return map[direction] || [];
+  const m = map[load] || map.normal;
+  const styleNote = {
+    competitive: "想冲绩点：把每门核心课当主战场，预习+作业+答疑闭环；通识选轻松高分款，把精力留给主课。",
+    steady: "稳扎稳打：保证核心课质量，通识每周占用控制在 6 小时以内即可。",
+    explore: "想多探索：核心课外只加 1 门通识，把时间留给社团/社工/科研宣讲。",
+  }[style] || "";
+  const room = Math.max(0, Math.round((m.total - definiteCredit) * 10) / 10);
+  const topUp = m.total > definiteCredit
+    ? `核心课已占约 ${definiteCredit} 学分，还剩约 ${room} 学分自由安排——优先 2 学分先导课，其余给通识。`
+    : `核心课约 ${definiteCredit} 学分已接近预算，通识课量力而行，先导课（2 学分）务必安排。`;
+
+  return { label: m.label, total: m.total, note: m.note, styleNote, topUp };
 }
 
-/** 扁平化课程列表（处理嵌套的 group/二选一结构），并附加默认标签 */
-function flattenCourses(list, groupName, defaultTags, attr) {
-  const out = [];
-  const push = (c) => {
-    if (!c || typeof c !== "object") return;
-    if (c.name && typeof c.credit === "number") {
-      out.push({
-        ...c,
-        _group: groupName,
-        _attr: attr || "必修",
-        tags: c.tags && c.tags.length ? c.tags : [...defaultTags],
-      });
-    } else if (c.courses) {
-      c.courses.forEach(push);
-    } else if (c.modules) {
-      c.modules.forEach(m => m.courses && m.courses.forEach(push));
-    }
-  };
-  list.forEach(push);
-  return out;
-}
-
-/* ---------------- 限选 ---------------- */
-function buildLimited(data, direction, interestWeight, english) {
-  const mj = data.pyfa.majors[direction];
-  if (!mj || !mj.limited) return [];
-  const groups = [];
-
-  mj.limited.forEach(g => {
-    const items = [];
-    // 直接课程
-    (g.courses || []).forEach(c => {
-      items.push({ ...c, _attr: "限选", _score: scoreCourse(c, interestWeight, majorTags(direction)) });
-    });
-    // 模块课程
-    (g.modules || []).forEach(mod => {
-      const modTags = (DIRECTION_MODULE_TAGS[direction] || {})[mod.name] || [];
-      mod.courses.forEach(c => {
-        const tags = [...majorTags(direction), ...modTags];
-        items.push({ ...c, _attr: "限选", _module: mod.name, _tags: tags, _score: scoreCourse({ ...c, tags }, interestWeight, tags) });
-      });
-    });
-    sortByScore(items);
-    groups.push({
-      groupName: g.group,
-      credit: g.credit,
-      requirement: g.credit ? `需修 ${g.credit} 学分` : "",
-      items,
-    });
-  });
-  return groups;
-}
-
-function buildUndecidedLimited(data, interestWeight) {
-  // 未确定方向：展示书院基础中的"三选一/二选一"替代课，供提前了解
-  const college = data.pyfa.college;
-  const groups = [];
-  const mk = (list, name) => {
-    const items = flattenCourses(list, name, ["theory"]).map(c => ({
-      ...c, _attr: "限选", _score: scoreCourse(c, interestWeight, ["theory"]),
-    }));
-    sortByScore(items);
-    groups.push({ groupName: name, credit: null, requirement: "任选其一", items });
-  };
-  mk(college.math.limited, "概率论三选一（数学 3/5学分）");
-  mk([{ courses: college.physics.required.map(g => g.courses).flat() }], "大学物理（1）三选一");
-  mk([{ courses: college.cs.required[0].courses }], "程序设计三选一");
-  mk([{ courses: college.cs.required[2].courses }], "人工智能导论二选一");
-  mk([{ courses: college.practice.required[0].courses }], "专业导论四选二（帮你提前了解方向）");
-  return groups;
-}
-
-/* ---------------- 任选 ---------------- */
-function buildFree(data, direction, interestWeight, extra, english) {
+/* ---------- 通识推荐 ---------- */
+function buildLiberalRecs(answers, data) {
+  const extra = many(answers, "extra");
   const out = [];
   const zhjwxk = data.zhjwxk;
-
-  // 通识任选推荐：按用户拓展兴趣分组
   const libGroups = {};
   (zhjwxk.courses || []).forEach(c => {
     const cat = LIBERAL_GROUP_MAP[c.group];
     if (!cat || c.attr === "必修") return;
     (libGroups[cat] = libGroups[cat] || []).push(c);
   });
-
-  const catNames = { humanity: "人文课组", social: "社科课组", art: "艺术课组", science: "科学课组" };
-  const catKey = { humanity: "humanity", social: "social", art: "art", science: "science" };
-
-  // 用户选择了拓展方向的课组 → 每类推荐前 5（按评分）
-  extra.filter(e => catKey[e]).forEach(e => {
-    const list = (libGroups[e] || []).map(c => ({
-      ...c, _attr: "任选", _score: scoreCourse(c, interestWeight, [e]),
-    }));
-    sortByScore(list);
-    const top = list.slice(0, 6);
-    if (top.length) {
-      out.push({ groupName: `通识选修·${catNames[e]}（每课组至少2学分）`, credit: 2, items: top });
-    }
+  const sortByScore = (arr) => arr.sort((a, b) => {
+    const ea = a.eval && a.eval.count ? a.eval.avg : -1;
+    const eb = b.eval && b.eval.count ? b.eval.avg : -1;
+    return eb - ea || (b.eval ? b.eval.count : 0) - (a.eval ? a.eval.count : 0);
   });
 
-  // 科学课组默认推荐（适合探微理工背景）
-  if (!extra.includes("science") && !extra.includes("none")) {
-    const list = (libGroups["science"] || []).map(c => ({ ...c, _attr: "任选", _score: scoreCourse(c, interestWeight, ["science"]) }));
-    sortByScore(list);
-    const top = list.slice(0, 5);
-    if (top.length) out.push({ groupName: "通识选修·科学课组（适合理工科拓展）", credit: 2, items: top });
+  const catMap = { science: "science", humanity: "humanity", social: "social", art: "art" };
+  const catNames = { science: "科学课组", humanity: "人文课组", social: "社科课组", art: "艺术课组" };
+  extra.filter(e => catMap[e]).forEach(e => {
+    const top = sortByScore(libGroups[e] || []).slice(0, 4);
+    if (top.length) out.push({ group: `通识选修·${catNames[e]}`, credit: "建议 2 学分", items: top });
+  });
+
+  if (extra.includes("ethic")) {
+    const ethic = sortByScore((libGroups["science"] || []).filter(c => ETHIC_KEYWORDS.some(k => c.name.includes(k))));
+    if (ethic.length) out.push({ group: "通识选修·工程/科学伦理类（培养方案建议选修）", credit: "2 学分", items: ethic.slice(0, 3) });
   }
 
-  // 专业任选（药学方向有专门任选课组）
-  if (direction === "pharmacy" && data.pyfa.majors.pharmacy.free) {
-    const items = data.pyfa.majors.pharmacy.free.map(c => ({
-      ...c, _attr: "任选", _score: scoreCourse(c, interestWeight, ["biomed", "lab"]),
-    }));
-    sortByScore(items);
-    out.push({ groupName: "药学方向·任选课组", credit: null, items });
+  const pickedAny = extra.some(e => catMap[e]);
+  if (!pickedAny && !extra.includes("ethic")) {
+    const top = sortByScore(libGroups["science"] || []).slice(0, 4);
+    if (top.length) out.push({ group: "通识选修·科学课组（适合理工科起步）", credit: "建议 2 学分", items: top });
   }
-
-  // 英文课程提示
-  if (english === "ok" || english === "some") {
-    const enCourses = (zhjwxk.courses || []).filter(c => /英|English/i.test(c.name) && c.eval && c.eval.count);
-    const list = enCourses.map(c => ({ ...c, _attr: "任选", _score: scoreCourse(c, interestWeight, ["english"]) }));
-    sortByScore(list);
-    const top = list.slice(0, 5);
-    if (top.length) out.push({ groupName: "英文授课课程推荐（练英语/国际课程）", credit: null, items: top });
-  }
-
   return out;
 }
 
-/* ---------------- 学分规划 ---------------- */
-function buildCreditPlan(data, direction, load) {
-  const table = data.credit_table || [];
-  let row = null;
-  if (direction !== "undecided") {
-    const nameMap = {
-      che: "化学生物学+化学工程与工业生物工程", polymer: "化学生物学+高分子材料与工程",
-      env: "化学生物学+环境工程", water: "化学生物学+给排水科学与工程",
-      bme: "化学生物学+生物医学工程", pharmacy: "化学生物学（药学方向）",
-      smart_chem: "化学生物学+交叉工程（智能化工）", env_ai: "化学生物学+交叉工程（环境人工智能）",
-      water_digital: "化学生物学+交叉工程（数智水务）", smart_med: "化学生物学+交叉工程（智能医学工程）",
-    };
-    row = table.find(t => t.name === nameMap[direction]);
-  }
-  const total = row ? row.total : 160;
-
-  const loadMap = {
-    light: { perSem: 18, label: "轻松模式" },
-    normal: { perSem: 21, label: "标准模式" },
-    heavy: { perSem: 25, label: "学霸模式" },
+/* ---------- 方向预览（可选） ---------- */
+function buildDirectionPreview(mj, code, answers) {
+  const intro = DIRECTION_INTRO[code];
+  const required = [];
+  const flatten = (list) => {
+    (list || []).forEach(item => {
+      if (item.name && typeof item.credit === "number") required.push({ ...item, _attr: "必修" });
+      else if (item.courses) item.courses.forEach(c => required.push({ ...c, _attr: "必修" }));
+      else if (item.modules) item.modules.forEach(m => (m.courses || []).forEach(c => required.push({ ...c, _attr: "必修" })));
+    });
   };
-  const cfg = loadMap[load] || loadMap.normal;
+  flatten(mj.required);
 
-  // 预估分布：通识43 + 书院基础66 主要集中在前两年
-  const cells = [
-    { sem: "大一秋", cr: Math.round(cfg.perSem * 0.95), hint: "微积分A(1)·大学物理(1)·化学原理·程序设计" },
-    { sem: "大一春", cr: Math.round(cfg.perSem * 1.0), hint: "微积分A(2)·有机化学A·生物化学·英语" },
-    { sem: "大二秋", cr: Math.round(cfg.perSem * 1.02), hint: "线性代数·概率统计·物理(2)·专业课启动" },
-    { sem: "大二春", cr: Math.round(cfg.perSem * 0.98), hint: "方向确认·专业课加深·限选模块" },
-    { sem: "大三", cr: Math.round(total / 4.2), hint: "专业课攻坚·限选模块·科研训练" },
-    { sem: "大四", cr: Math.max(6, Math.round((total - cfg.perSem * 4.2) / 2)), hint: "综合论文训练·毕业设计" },
-  ];
-  return { total, perSem: cfg.perSem, label: cfg.label, cells };
+  const interest = many(answers, "interests");
+  const majorDomain = {
+    che: ["chem", "phys"], polymer: ["chem", "phys"], env: ["env", "chem"],
+    water: ["env", "phys"], bme: ["bio", "phys"], smart_chem: ["ai", "chem"],
+    env_ai: ["env", "ai"], water_digital: ["env", "ai"], smart_med: ["bio", "ai"],
+    pharmacy: ["bio", "chem"],
+  }[code] || [];
+  required.forEach(c => {
+    c.eval = findEval(c);
+    c._score = (c.eval && c.eval.count ? c.eval.avg - 2.5 : 0.3) + (majorDomain.some(d => interest.includes(d)) ? 1 : 0);
+  });
+  required.sort((a, b) => (b._score || 0) - (a._score || 0));
+
+  return {
+    code,
+    name: mj.name,
+    degree: mj.degree,
+    total: mj.total,
+    requiredCredit: mj.required_credit,
+    limitedCredit: mj.limited_credit,
+    intro,
+    requiredCount: required.length,
+    required: required.slice(0, 8),
+    more: Math.max(0, required.length - 8),
+    limitedGroups: (mj.limited || []).map(g => ({ name: g.group, credit: g.credit })),
+  };
+}
+
+/* ---------- 学业风格/方向意识提示 ---------- */
+function styleTipsFor(answers) {
+  const style = one(answers, "style") || "steady";
+  const awareness = one(answers, "awareness") || "none";
+  const tips = [];
+  if (style === "competitive") tips.push("四门核心课+英语是绩点主战场，期中前建立复习节奏，别考前突击。");
+  if (style === "explore") tips.push("大一上别排满，通识/社团/科研宣讲会都是探索方向的好途径。");
+  if (awareness === "none") tips.push("先导课就是你的「方向试吃」——认真上完两门，大二春确认时心里就有谱了。");
+  if (awareness === "some") tips.push("把两门先导课选在最感兴趣的领域，用真实课程验证你的直觉。");
+  return tips;
 }

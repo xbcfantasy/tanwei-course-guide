@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>课程库 - 探微书院2026选课助手</title>
+  <meta name="description" content="搜索探微书院2026级培养方案课程库，浏览课程学分、属性与THU选课社区真实评分。">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236610f2'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>探</text></svg>">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-logo">探</span>
+        <span>探微书院2026选课助手<small>Tanwei Course Guide</small></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" data-nav="home">首页</a>
+        <a href="guide.html" data-nav="guide">选课指导</a>
+        <a href="pyfa.html" data-nav="pyfa">培养方案</a>
+        <a href="courses.html" data-nav="courses" class="active">课程库</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>🔍 课程库</h2>
+      <div class="sub">共 <span id="totalCount">-</span> 门培养方案内课程（含评价 <span id="ratedCount">-</span> 门）。支持按课组、属性筛选，评分来自 THU 选课社区。</div>
+      <div class="searchbar">
+        <input id="searchInput" type="text" placeholder="搜索课程名称 / 编号，如：化学原理、微积分A(1)…" oninput="coursesApp.search()">
+        <select id="groupFilter" class="chip" style="padding:11px 15px;border:1.5px solid var(--line);border-radius:11px;font-family:var(--font)" onchange="coursesApp.search()">
+          <option value="">全部课组</option>
+        </select>
+        <select id="attrFilter" class="chip" style="padding:11px 15px;border:1.5px solid var(--line);border-radius:11px;font-family:var(--font)" onchange="coursesApp.search()">
+          <option value="">全部属性</option>
+          <option value="必修">必修</option>
+          <option value="限选">限选</option>
+          <option value="任选">任选</option>
+        </select>
+        <select id="scoreFilter" class="chip" style="padding:11px 15px;border:1.5px solid var(--line);border-radius:11px;font-family:var(--font)" onchange="coursesApp.search()">
+          <option value="">全部评分</option>
+          <option value="4">4分以上</option>
+          <option value="3">3分以上</option>
+          <option value="rated">仅看有评价</option>
+        </select>
+      </div>
+      <div class="filter-chips" id="quickChips"></div>
+      <div id="courseList"><div class="loading"><div class="spinner"></div>正在加载课程数据…</div></div>
+    </div>
+  </div>
+
+  <footer class="footer"></footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/courses.js"></script>
+</body>
+</html>

@@ -10,3 +10,5 @@ pyfa_text.txt
 # 中间数据（可由 scripts/fetch_reviews.py 重建）
 data/reviews_raw/
 data/matched_sqids.json
+# SSH 部署密钥（绝不入库！）
+.deploy_ssh/

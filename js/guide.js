@@ -1,11 +1,11 @@
 /* ============================================================
-   问卷交互 + 推荐结果渲染
+   问卷交互 v2 + 新生版结果渲染
    ============================================================ */
 "use strict";
 
 const quiz = {
   answers: {},
-  step: 0,
+  step: 0, // 在 QUIZ 数组中的索引（始终指向可见题）
 
   async init() {
     setActiveNav("guide");
@@ -21,7 +21,6 @@ const quiz = {
     const shared = this.parseShareHash();
     if (shared) {
       this.answers = shared;
-      // 分享链接直达结果
       this.showResult();
       return;
     }
@@ -29,7 +28,24 @@ const quiz = {
       const saved = localStorage.getItem("tanwei_quiz_answers");
       if (saved) this.answers = JSON.parse(saved);
     } catch (e) { /* ignore */ }
+    const vis = this.visible();
+    this.step = vis.length ? QUIZ.indexOf(vis[0]) : 0;
     this.renderStep();
+  },
+
+  visible() {
+    return visibleQuestions(this.answers);
+  },
+
+  /** 当前题 */
+  currentQ() {
+    return QUIZ[this.step];
+  },
+
+  /** 当前题在可见列表中的序号 */
+  visIndexOfCurrent() {
+    const vis = this.visible();
+    return vis.findIndex(q => q.id === this.currentQ()?.id);
   },
 
   /** 解析分享链接 #q=<base64url of JSON> */
@@ -39,10 +55,7 @@ const quiz = {
     try {
       const json = decodeURIComponent(atob(m[1].replace(/-/g, "+").replace(/_/g, "/")));
       const ans = JSON.parse(json);
-      // 校验 key
-      const keys = Object.fromEntries(QUIZ.map(q => [q.id, 1]));
-      const ok = Object.keys(ans).every(k => keys[k]);
-      return ok ? ans : null;
+      return typeof ans === "object" && ans !== null ? ans : null;
     } catch (e) { return null; }
   },
 
@@ -58,7 +71,7 @@ const quiz = {
     const dots = document.getElementById("stepDots");
     container.innerHTML = "";
     dots.innerHTML = "";
-    QUIZ.forEach((q, i) => {
+    QUIZ.forEach((q) => {
       const step = document.createElement("div");
       step.className = "quiz-step";
       step.dataset.q = q.id;
@@ -81,9 +94,7 @@ const quiz = {
         optsBox.appendChild(el);
       });
       container.appendChild(step);
-
       const d = document.createElement("span");
-      if (i === this.step) d.className = "on";
       dots.appendChild(d);
     });
   },
@@ -91,7 +102,7 @@ const quiz = {
   toggleOption(q, value, el) {
     if (q.type === "single") {
       const box = el.parentElement;
-      box.querySelectorAll(".opt").forEach(o => o.classList.remove("selected"));
+      if (box) box.querySelectorAll(".opt").forEach(o => o.classList.remove("selected"));
       el.classList.add("selected");
       this.answers[q.id] = [value];
     } else {
@@ -115,33 +126,59 @@ const quiz = {
 
   renderStep() {
     const steps = document.querySelectorAll(".quiz-step");
-    steps.forEach((s, i) => s.classList.toggle("active", i === this.step));
-    document.getElementById("stepLabel").textContent = `${this.step + 1} / ${QUIZ.length}`;
-    document.getElementById("quizBar").style.width = `${((this.step + 1) / QUIZ.length) * 100}%`;
-    document.querySelectorAll("#stepDots span").forEach((d, i) => d.classList.toggle("on", i <= this.step));
-    const btnPrev = document.getElementById("btnPrev");
-    btnPrev.style.visibility = this.step === 0 ? "hidden" : "visible";
-    const btnNext = document.getElementById("btnNext");
-    btnNext.textContent = this.step === QUIZ.length - 1 ? "生成我的选课清单 🎉" : "下一步 →";
-    // 恢复已选状态
-    const q = QUIZ[this.step];
-    const sel = this.answers[q.id] || [];
-    const opts = steps[this.step].querySelectorAll(".opt");
-    opts.forEach(o => {
-      if (sel.includes(o.dataset.value)) o.classList.add("selected");
+    const vis = this.visible();
+    // 当前题不可见时（条件变化导致），移到可见区间开头
+    if (this.visIndexOfCurrent() < 0) {
+      this.step = vis.length ? QUIZ.indexOf(vis[0]) : 0;
+    }
+    const curVisIdx = this.visIndexOfCurrent();
+
+    // 进度点数量 = 可见题数
+    const dots = document.querySelectorAll("#stepDots span");
+    vis.forEach((v, i) => {
+      if (dots[i]) dots[i].classList.toggle("on", i <= curVisIdx);
     });
+
+    QUIZ.forEach((q, i) => {
+      const visible = vis.some(v => v.id === q.id);
+      const st = steps[i];
+      if (!st) return;
+      st.style.display = visible ? "" : "none";
+      st.classList.toggle("active", i === this.step);
+    });
+
+    document.getElementById("stepLabel").textContent = `${curVisIdx + 1} / ${vis.length}`;
+    document.getElementById("quizBar").style.width = `${((curVisIdx + 1) / Math.max(1, vis.length)) * 100}%`;
+    const btnPrev = document.getElementById("btnPrev");
+    btnPrev.style.visibility = curVisIdx <= 0 ? "hidden" : "visible";
+    const btnNext = document.getElementById("btnNext");
+    btnNext.textContent = curVisIdx >= vis.length - 1 ? "生成我的选课计划书 🎉" : "下一步 →";
+
+    // 恢复当前题已选状态
+    const q = this.currentQ();
+    const sel = this.answers[q?.id] || [];
+    const stepEl = steps[this.step];
+    if (stepEl) {
+      stepEl.querySelectorAll(".opt").forEach(o => {
+        o.classList.toggle("selected", sel.includes(o.dataset.value));
+      });
+    }
     this.updateNextState();
   },
 
   updateNextState() {
-    const q = QUIZ[this.step];
+    const q = this.currentQ();
+    if (!q) return;
     const sel = this.answers[q.id] || [];
-    document.getElementById("btnNext").disabled = sel.length === 0;
+    // optional 题允许跳过
+    document.getElementById("btnNext").disabled = q.optional ? false : sel.length === 0;
   },
 
   next() {
-    if (this.step < QUIZ.length - 1) {
-      this.step++;
+    const vis = this.visible();
+    const cur = this.visIndexOfCurrent();
+    if (cur < vis.length - 1) {
+      this.step = QUIZ.indexOf(vis[cur + 1]);
       this.renderStep();
     } else {
       this.showResult();
@@ -149,31 +186,33 @@ const quiz = {
   },
 
   prev() {
-    if (this.step > 0) {
-      this.step--;
+    const vis = this.visible();
+    const cur = this.visIndexOfCurrent();
+    if (cur > 0) {
+      this.step = QUIZ.indexOf(vis[cur - 1]);
       this.renderStep();
     }
   },
 
   restart() {
     this.answers = {};
-    this.step = 0;
+    const vis = this.visible();
+    this.step = vis.length ? QUIZ.indexOf(vis[0]) : 0;
     document.getElementById("resultView").style.display = "none";
     document.getElementById("quizView").style.display = "";
     this.renderStep();
     window.scrollTo(0, 0);
   },
 
-  /* ============ 结果渲染 ============ */
+  /* ============ 新生版结果渲染 ============ */
   showResult() {
-    // 保存答案到 localStorage，并更新分享链接
     try {
       localStorage.setItem("tanwei_quiz_answers", JSON.stringify(this.answers));
       history.replaceState(null, "", this.shareHash());
     } catch (e) { /* ignore */ }
 
-    const rec = generateRecommendations(this.answers);
-    const dirName = directionName(rec.direction);
+    const rec = generateFreshmanPlan(this.answers);
+    const awareness = (this.answers.awareness || [])[0];
 
     document.getElementById("quizView").style.display = "none";
     const rv = document.getElementById("resultView");
@@ -181,120 +220,170 @@ const quiz = {
 
     document.getElementById("resultHeader").innerHTML = `
       <div class="hero">
-        <h1>🎉 你的专属选课清单已生成</h1>
-        <p>方向：<b>${dirName}</b> · 依据「必选 / 限选 / 任选」框架整理。
-        课程卡片上的评分来自 <a href="https://thubook.help/thucourse/" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">THU选课社区</a> 学生真实评价，仅供参考。</p>
+        <h1>🎉 你的大一上选课计划书已生成</h1>
+        <p>方向大二春才确认，不用急——这份计划帮你把<b>大一第一学期</b>安排明白：
+        核心必修打底，先导课探索方向，通识课开阔视野。
+        评分来自 <a href="https://thubook.help/thucourse/" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">THU选课社区</a> 学生真实评价，仅供参考。</p>
         <div class="badges">
-          <span>📌 必选：照单全收</span>
-          <span>🔍 限选：按兴趣+口碑选</span>
-          <span>🆓 任选：自由拓展</span>
+          <span>📌 核心课：打牢基础</span>
+          <span>🔭 先导课：探索方向</span>
+          <span>🆓 通识课：开阔视野</span>
         </div>
       </div>`;
 
     const body = document.getElementById("resultBody");
     body.innerHTML = "";
 
-    // ---- 必选 ----
-    const reqSec = document.createElement("div");
-    reqSec.className = "rec-section";
-    reqSec.innerHTML = `
-      <h2><span class="tag-icon bar-req">📌</span> 必选课程（Required）</h2>
-      <div class="rec-desc">培养方案规定的必修课程，原则上都需要修读。带评分徽章的课程附有学长学姐的真实评价。</div>`;
-    rec.required.forEach(s => {
-      const block = document.createElement("div");
-      block.className = "module-block";
-      block.innerHTML = `
-        <div class="mod-head">${esc(s.title)} <span class="mod-req">${esc(s.desc)}</span></div>
-        <div class="grid-2">${s.courses.map(c => courseCardHTML(c)).join("")}</div>`;
-      reqSec.appendChild(block);
-    });
-    body.appendChild(reqSec);
-
-    // ---- 限选 ----
-    const limSec = document.createElement("div");
-    limSec.className = "rec-section";
-    const limTitle = rec.direction === "undecided"
-      ? "限选课程 · 基础课组的「二选一 / 三选一」"
-      : "限选课程（Limited Electives）";
-    limSec.innerHTML = `
-      <h2><span class="tag-icon bar-lim">🔍</span> ${limTitle}</h2>
-      <div class="rec-desc">在限定范围内按需选修，已按「你的兴趣匹配度 × 课程口碑」排序。未修满要求学分前，优先选排在前面的课程。</div>`;
-    rec.limited.forEach(g => {
-      const block = document.createElement("div");
-      block.className = "module-block";
-      block.innerHTML = `
-        <div class="mod-head">${esc(g.groupName)} ${g.requirement ? `<span class="mod-req">${esc(g.requirement)}</span>` : ""}</div>
-        <div class="grid-2">${g.items.slice(0, 8).map(c => courseCardHTML(c, true)).join("")}</div>
-        ${g.items.length > 8 ? `<p class="small mt8">…共 ${g.items.length} 门，完整清单见 <a href="pyfa.html">培养方案</a> 页</p>` : ""}`;
-      limSec.appendChild(block);
-    });
-    if (!rec.limited.length) {
-      limSec.innerHTML += `<p class="small">该方向暂无额外限选课程（学分要求集中在必修）。</p>`;
+    // ============ A. 大一上核心必选 ============
+    const secA = document.createElement("div");
+    secA.className = "rec-section";
+    secA.innerHTML = `
+      <h2><span class="tag-icon bar-req">📌</span> 大一上核心必选（共约 ${rec.fallCore.definiteCredit} 学分）</h2>
+      <div class="rec-desc">探微书院统一底盘，第一学期全班基本一致。下表为<b>推断参考版</b>——以入学后教务系统与书院通知为准。</div>`;
+    secA.innerHTML += planTableHTML("本学期确定开设", rec.fallCore.definite);
+    if (rec.fallCore.maybe.length) {
+      secA.innerHTML += planTableHTML("视教学计划（可能本学期或顺延）", rec.fallCore.maybe, true);
     }
-    body.appendChild(limSec);
+    body.appendChild(secA);
 
-    // ---- 任选 ----
-    const freeSec = document.createElement("div");
-    freeSec.className = "rec-section";
-    freeSec.innerHTML = `
-      <h2><span class="tag-icon bar-free">🆓</span> 任选推荐（Free Electives）</h2>
-      <div class="rec-desc">通识选修四大课组每组至少 2 学分（共 11 学分），以下按你的拓展兴趣推荐高分课程。</div>`;
-    rec.free.forEach(g => {
-      const block = document.createElement("div");
-      block.className = "module-block";
-      block.innerHTML = `
-        <div class="mod-head">${esc(g.groupName)} ${g.credit ? `<span class="mod-req">建议 ${g.credit}+ 学分</span>` : ""}</div>
-        <div class="grid-2">${g.items.slice(0, 6).map(c => courseCardHTML(c, true)).join("")}</div>`;
-      freeSec.appendChild(block);
-    });
-    if (!rec.free.length) {
-      freeSec.innerHTML += `<p class="small">按你的选择暂无额外推荐，可去 <a href="courses.html">课程库</a> 自行探索。</p>`;
-    }
-    body.appendChild(freeSec);
-
-    // ---- 学分规划 ----
-    const planSec = document.createElement("div");
-    planSec.className = "rec-section";
-    const pc = rec.planCells;
-    planSec.innerHTML = `
-      <h2><span class="tag-icon" style="background:#eaf1fe;color:#175cd3">🗓️</span> 学分规划建议（${esc(pc.label)}）</h2>
-      <div class="rec-desc">总学分约 <b>${pc.total}</b>（以所选方向培养方案为准），每学期约 <b>${pc.perSem}</b> 学分。通识+书院基础多集中在前两年。</div>
-      <div class="plan-grid">${pc.cells.map(c => `
-        <div class="plan-cell"><div class="sem">${esc(c.sem)}</div><div class="cr">≈${c.cr} 学分</div><div class="hint">${esc(c.hint)}</div></div>`).join("")}
+    // ============ B. 学分预算 ============
+    const secB = document.createElement("div");
+    secB.className = "rec-section";
+    const la = rec.loadAdvice;
+    secB.innerHTML = `
+      <h2><span class="tag-icon" style="background:#eaf1fe;color:#175cd3">🎯</span> 学分预算：${esc(la.label)}</h2>
+      <div class="card">
+        <p>${esc(la.note)}</p>
+        <p class="mt8">${esc(la.topUp)}</p>
+        <p class="mt8">${esc(la.styleNote)}</p>
+        <p class="small mt8">四年总学分 146-160，通识 43 + 书院基础 66 是所有人共同的底盘，前两年节奏决定后两年余裕。</p>
       </div>`;
-    body.appendChild(planSec);
+    body.appendChild(secB);
 
-    // 提示
-    const notice = document.createElement("div");
-    notice.className = "notice mt24";
-    notice.innerHTML = `<b>💡 使用提示：</b>限选与任选课程每年开课情况、课容量可能变化，请以选课系统实际开放课程为准；评分高的课通常抢课激烈，建议提前规划备选。培养方案完整细节见 <a href="pyfa.html">培养方案</a> 页。<br>
-    <b>🔗 分享：</b>当前页面链接已包含你的问卷答案，复制地址发给同学，对方打开即可看到同样结果。`;
-    body.appendChild(notice);
+    // ============ C. 先导课（方向导论） ============
+    const secC = document.createElement("div");
+    secC.className = "rec-section";
+    secC.innerHTML = `
+      <h2><span class="tag-icon bar-lim">🔭</span> 你的先导课选择（四选二 · 各 1 学分）</h2>
+      <div class="rec-desc">导论课是「方向试吃」——大二春确认方向前，这两门课是你了解探微各方向的窗口。你选了：</div>
+      <div class="grid-2">${rec.introCourses.chosen.map(introCardHTML).join("") || '<p class="small">（未选择）</p>'}</div>
+      <details class="detail mt8"><summary>另外两门也可以了解一下（选课开放后按兴趣调整）</summary>
+      <div class="grid-2 mt8">${rec.introCourses.all.filter(i => !rec.introCourses.chosen.some(c => c.name === i.name)).map(introCardHTML).join("")}</div></details>`;
+    body.appendChild(secC);
 
-    // 分享按钮
-    const shareBar = document.createElement("div");
-    shareBar.className = "card";
-    shareBar.style.textAlign = "center";
-    shareBar.innerHTML = `
-      <p class="small mb8">把这份选课清单分享给同学：</p>
-      <button class="btn btn-primary" onclick="quiz.copyShare()">📋 复制分享链接</button>`;
-    body.appendChild(shareBar);
+    // ============ D. 通识推荐 ============
+    const secD = document.createElement("div");
+    secD.className = "rec-section";
+    secD.innerHTML = `
+      <h2><span class="tag-icon bar-free">🆓</span> 通识选修推荐（本学期 1-2 门即可）</h2>
+      <div class="rec-desc">通识共 11 学分分四年完成，四大课组每课组至少 2 学分。以下按你的偏好推荐高分课程。</div>`;
+    if (rec.liberal.length) {
+      rec.liberal.forEach(g => {
+        const blk = document.createElement("div");
+        blk.className = "module-block";
+        blk.innerHTML = `<div class="mod-head">${esc(g.group)} <span class="mod-req">${esc(g.credit)}</span></div>
+          <div class="grid-2">${g.items.map(c => courseCardHTML({ ...c, _attr: "任选" })).join("")}</div>`;
+        secD.appendChild(blk);
+      });
+    } else {
+      secD.innerHTML += `<p class="small">未选具体类别——可去 <a href="courses.html">课程库</a> 按课组浏览高分通识课。</p>`;
+    }
+    body.appendChild(secD);
+
+    // ============ E. 方向预览（可选） ============
+    if (rec.directionPreview) {
+      const pv = rec.directionPreview;
+      const secE = document.createElement("div");
+      secE.className = "rec-section";
+      secE.innerHTML = `
+        <h2><span class="tag-icon" style="background:#f0e6ff;color:#6941c6">🧭</span> 方向提前预览：${esc(pv.name)}</h2>
+        <div class="rec-desc">大二春确认前的提前预览：该方向专业必修 ${pv.requiredCredit} 学分 + 限选 ${pv.limitedCredit} 学分（专业总 ${pv.total} 学分）。导论窗口：${esc(pv.intro?.icon || "")} ${esc(pv.intro?.intro || "")}（${esc(pv.intro?.note || "")}）</div>`;
+      secE.innerHTML += previewTableHTML(pv);
+      body.appendChild(secE);
+    }
+
+    // ============ F. 给新生的提示 ============
+    const secF = document.createElement("div");
+    secF.className = "rec-section";
+    secF.innerHTML = `
+      <h2><span class="tag-icon" style="background:#fff4e5;color:#dc6803">💡</span> 给新生的提示</h2>
+      <div class="card">
+        <ul style="margin:4px 0 0 20px;line-height:2">
+          ${rec.styleTips.map(t => `<li>${esc(t)}</li>`).join("")}
+          <li>📅 入学节奏：英语分级考试（开学前后）→ 军训/军事理论 → 正式上课 → 期中 → 期末选大一下。体育必修 4 学期，毕业前须通过游泳测试。</li>
+          <li>🚀 大一期间方向探索：先导课 + 书院导师交流 + 各系开放日/实验室参观 + 学长学姐经验——大二春确认前有整整一年半。</li>
+          <li>📌 本计划为推断参考版，具体课程与学期以入学后<a href="pyfa.html">培养方案</a>和教务系统为准。</li>
+        </ul>
+      </div>`;
+    body.appendChild(secF);
+
+    // ============ 分享 ============
+    const share = document.createElement("div");
+    share.className = "card";
+    share.style.textAlign = "center";
+    share.innerHTML = `
+      <p class="small mb8">把这份计划分享给同学（链接包含你的问卷答案，对方打开即见同样结果）：</p>
+      <button class="btn btn-primary" onclick="quiz.copyShare()">📋 复制分享链接</button>
+      <a class="btn btn-outline" href="pyfa.html" style="margin-left:10px">📖 查看完整培养方案</a>`;
+    body.appendChild(share);
 
     window.scrollTo(0, 0);
   },
 
-  /** 复制分享链接 */
   async copyShare() {
     const url = this.shareHash();
     try {
       await navigator.clipboard.writeText(url);
-      alert("✅ 链接已复制！发给同学即可看到同样的选课清单。");
+      alert("✅ 链接已复制！发给同学即可看到同样的计划。");
     } catch (e) {
-      // 剪贴板不可用时提示手动复制
       prompt("请手动复制以下链接：", url);
     }
   },
 };
+
+/* ---------- 计划表格 ---------- */
+function planTableHTML(title, courses, isMaybe) {
+  return `
+    <div class="module-block">
+      <div class="mod-head">${esc(title)} <span class="mod-req">${isMaybe ? "⚠️ 以教务系统为准" : ""}</span></div>
+      <div style="overflow-x:auto"><table class="tbl">
+        <tr><th style="width:60px">学分</th><th>课程</th><th>说明</th><th style="width:150px">学生评价</th></tr>
+        ${courses.map(c => `
+          <tr>
+            <td class="num"><b>${fmtCredit(c.credit)}</b></td>
+            <td>${esc(c.name)}${c.id ? `<span class="small muted"> · ${esc(c.id)}</span>` : ""}</td>
+            <td class="small">${esc(c.note || "")}</td>
+            <td>${scoreBadge(c.eval, true)}</td>
+          </tr>`).join("")}
+      </table></div>
+    </div>`;
+}
+
+/* ---------- 先导课卡片 ---------- */
+function introCardHTML(ic) {
+  return `
+    <div class="course-card">
+      <div class="course-name">${ic.icon || ""} ${esc(ic.name)}</div>
+      <div class="course-meta"><span>1 学分 · 四选二</span></div>
+      <div class="course-meta"><span class="small">通向：${(ic.leads || []).map(esc).join(" / ")}</span></div>
+      <div class="course-meta">${scoreBadge(ic.eval, true)}</div>
+      ${reviewBlock(ic.eval, 1)}
+    </div>`;
+}
+
+/* ---------- 方向预览表格 ---------- */
+function previewTableHTML(pv) {
+  return `
+    <div style="overflow-x:auto"><table class="tbl">
+      <tr><th>方向构成</th><th>学分</th><th>说明</th></tr>
+      <tr><td>专业必修</td><td class="num">${pv.requiredCredit}</td><td class="small">共 ${pv.requiredCount} 门核心专业课</td></tr>
+      <tr><td>专业限选</td><td class="num">${pv.limitedCredit}</td><td class="small">${(pv.limitedGroups || []).map(g => esc(g.name)).join("；") || "-"}</td></tr>
+      <tr><td>专业总学分</td><td class="num">${pv.total}</td><td class="small">${pv.degree}（另加通识43+书院基础66）</td></tr>
+    </table></div>
+    <div class="mod-head mt16">该方向部分必修课预览（按你的兴趣排序，带评价）</div>
+    <div class="grid-2">${pv.required.map(c => courseCardHTML(c)).join("")}</div>
+    ${pv.more > 0 ? `<p class="small mt8">…还有 ${pv.more} 门必修课，完整清单见 <a href="pyfa.html">培养方案</a> 页</p>` : ""}`;
+}
 
 function directionName(code) {
   const map = {
@@ -303,13 +392,12 @@ function directionName(code) {
     bme: "化学生物学+生物医学工程", pharmacy: "化学生物学（药学方向）",
     smart_chem: "交叉工程·智能化工", env_ai: "交叉工程·环境人工智能",
     water_digital: "交叉工程·数智水务", smart_med: "交叉工程·智能医学工程",
-    undecided: "暂未确定（先规划基础课）",
   };
   return map[code] || code;
 }
 
 /** 课程卡片 HTML */
-function courseCardHTML(c, showModule) {
+function courseCardHTML(c) {
   const ev = c.eval;
   const moduleTag = c._module ? `<span class="pill pill-module">${esc(c._module)}</span>` : "";
   const groupTag = c._group ? `<span class="pill pill-tag">${esc(c._group)}</span>` : "";
