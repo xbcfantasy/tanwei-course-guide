@@ -110,6 +110,7 @@ const quiz = {
       }
       this.answers[q.id] = cur;
     }
+    this.updateNextState();
   },
 
   renderStep() {
