@@ -100,6 +100,7 @@ function buildForeignLang(answers, data) {
   const english = one(answers, "english") || "c1";
   const style = one(answers, "style") || "steady";
   const fi = one(answers, "foreign_interest") || "open";
+  const langPick = one(answers, "foreign_lang_pick") || "other";
 
   // ① 必修课组建议（按分级）
   const levelMap = {
@@ -136,6 +137,24 @@ function buildForeignLang(answers, data) {
   });
   Object.values(buckets).forEach(arr => arr.sort((a, b) => (b._score || 0) - (a._score || 0)));
 
+  // 若用户倾向某语种：系列课程按学期序号排列（(1)→(2)→(3)…），并只展示该语种
+  const LANG_RE = {
+    es: /西班牙/, ja: /日语/, fr: /法语/, de: /德语/, ko: /韩国语|韩语/, it: /意大利/, ar: /阿拉伯/,
+  };
+  const LANG_NAME = { es: "西班牙语", ja: "日语", fr: "法语", de: "德语", ko: "韩语", it: "意大利语", ar: "阿拉伯语" };
+  const semNo = (name) => { const m = (name || "").match(/（(\d+)）/); return m ? parseInt(m[1], 10) : 99; };
+  const pickedRe = LANG_RE[langPick];
+  let langLabel = null;
+  if (fi === "second" && pickedRe) {
+    const mine = buckets.second.filter(c => pickedRe.test(c.name))
+      .sort((a, b) => semNo(a.name) - semNo(b.name) || (b._score || 0) - (a._score || 0));
+    if (mine.length) {
+      langLabel = LANG_NAME[langPick];
+      buckets.second = mine; // 只展示该语种系列（按学期序）
+    }
+    // mine 为空 → 该语种本学期无开课记录，保持通用列表，由 desc 提示
+  }
+
   const tips = [];
   if (english === "ba") tips.push("你在 B/A 级：综合能力课完成后即可选择英语限选课组，想出国建议优先「外语专项提高」（学术英语/口译方向）。");
   if (english === "c1") tips.push("你在 C1/C2 级：第一学期先完成英语综合训练，打好听说读写基础，选修课组可留到后续学期。");
@@ -153,18 +172,25 @@ function buildForeignLang(answers, data) {
     improve: "英语应用进阶（科技英语视听说、口译入门、英语进阶读写、走近公众演说、学术英语等），2 学分/门。适合英语基础较好、计划出国深造或参与国际学术交流的同学。",
   };
   const mkBucket = (key, title) => {
+    if (key === "second" && langLabel) {
+      return { title, desc: BUCKET_INTRO.second, items: buckets.second, highlighted: true };
+    }
     const n = fi === "open" ? 6 : (key === preferred ? 8 : 3);
     return { title, desc: BUCKET_INTRO[key], items: buckets[key].slice(0, n), highlighted: key === preferred };
   };
+  // second bucket 标题按所选语种定制
+  const secondTitle = (langLabel && buckets.second.length)
+    ? `第二外语 · ${langLabel}系列（你选的语言，按学期连修）`
+    : "第二外语（系统学一门新语言）";
 
   return {
     requirement: "一外英语学生：外语共 8 学分 = ①英语综合能力必修 4 学分 + ②第二外语/外国语言文化/外语专项提高选修 4 学分",
     levelLabel: level.label,
     levelCourses: level.courses,
     levelNote: level.note,
-    preferenceLabel: fi === "second" ? "你的倾向：第二外语" : fi === "improve" ? "你的倾向：英语进阶/学术" : fi === "culture" ? "你的倾向：外国语言文化" : "你的倾向：不局限，看口碑",
+    preferenceLabel: fi === "second" ? (langLabel ? `你的倾向：第二外语·${langLabel}` : "你的倾向：第二外语") : fi === "improve" ? "你的倾向：英语进阶/学术" : fi === "culture" ? "你的倾向：外国语言文化" : "你的倾向：不局限，看口碑",
     buckets: {
-      second: mkBucket("second", "第二外语（系统学一门新语言）"),
+      second: mkBucket("second", secondTitle),
       culture: mkBucket("culture", "外国语言文化（文化视野，2 学分灵活）"),
       improve: mkBucket("improve", "外语专项提高（英语进阶/学术英语）"),
     },

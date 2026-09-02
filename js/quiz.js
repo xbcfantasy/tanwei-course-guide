@@ -98,6 +98,22 @@ const QUIZ = [
     ],
   },
   {
+    id: "foreign_lang_pick",
+    title: "（接上题）想学哪门第二外语？",
+    desc: "不同语种的开课连续性、抢课热度差别不小，选一个倾向，我们优先推荐对应语种的系列课程（也可不局限）。",
+    type: "single",
+    condition: (a) => (a.foreign_interest || []).includes("second"),
+    options: [
+      { value: "es", title: "🇪🇸 西班牙语", sub: "开设最全、最热门的二外之一，口语实用性高" },
+      { value: "ja", title: "🇯🇵 日语", sub: "人气很高，ACG 文化加持，入门门槛相对友好" },
+      { value: "fr", title: "🇫🇷 法语", sub: "优雅的语言，适合对欧洲文化感兴趣" },
+      { value: "de", title: "🇩🇪 德语", sub: "工科/哲学语境重要，对德国学术圈有帮助" },
+      { value: "ko", title: "🇰🇷 韩语", sub: "韩流文化热度高，近年开课稳定" },
+      { value: "it", title: "🇮🇹 意大利语", sub: "艺术/音乐语境，相对小众但开设稳定" },
+      { value: "other", title: "其他 / 还没想好", sub: "看哪门课开课、口碑好再定" },
+    ],
+  },
+  {
     id: "extra",
     title: "通识选修课（四大课组，每课组至少 2 学分）想先从哪类开始？",
     desc: "通识选修共 11 学分，分散在四年完成。大一上选 1-2 门即可，这里决定先推荐哪类高分课。",
