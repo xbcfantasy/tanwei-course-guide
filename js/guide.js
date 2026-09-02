@@ -276,13 +276,13 @@ const quiz = {
     secD.className = "rec-section";
     secD.innerHTML = `
       <h2><span class="tag-icon bar-free">🆓</span> 通识选修推荐（本学期 1-2 门即可）</h2>
-      <div class="rec-desc">通识共 11 学分分四年完成，四大课组每课组至少 2 学分。以下按你的偏好推荐高分课程。</div>`;
+      <div class="rec-desc">通识共 11 学分分四年完成，四大课组每课组至少 2 学分。以下每组给你约 12 门高分课慢慢挑，已按「学生口碑 + 推荐度」排序，带 ⭐ 的表示有真实评价。</div>`;
     if (rec.liberal.length) {
       rec.liberal.forEach(g => {
         const blk = document.createElement("div");
         blk.className = "module-block";
         blk.innerHTML = `<div class="mod-head">${esc(g.group)} <span class="mod-req">${esc(g.credit)}</span></div>
-          <div class="grid-2">${g.items.map(c => courseCardHTML({ ...c, _attr: "任选" })).join("")}</div>`;
+          ${liberalTableHTML(g)}`;
         secD.appendChild(blk);
       });
     } else {
@@ -369,6 +369,30 @@ function introCardHTML(ic) {
       <div class="course-meta">${scoreBadge(ic.eval, true)}</div>
       ${reviewBlock(ic.eval, 1)}
     </div>`;
+}
+
+/* ---------- 通识推荐表格（更多选择 + 推荐排序） ---------- */
+function liberalTableHTML(g) {
+  const rows = g.items.map((c, i) => {
+    const ev = c.eval;
+    const rated = ev && ev.count;
+    const rank = i + 1;
+    return `
+      <tr>
+        <td class="num">${rank}</td>
+        <td>${esc(c.name)}</td>
+        <td class="num">${fmtCredit(c.credit)}</td>
+        <td>${rated ? `<span class="stars">${"★".repeat(Math.round(ev.avg))}${"☆".repeat(5 - Math.round(ev.avg))}</span> <b>${ev.avg.toFixed(1)}</b>` : '<span class="score-none">暂无评价</span>'}</td>
+        <td class="num">${rated ? `${ev.count} 条` : "-"}</td>
+      </tr>`;
+  }).join("");
+  const totalInfo = g.total ? `（该类共 ${g.total} 门可选，按推荐排序展示前 ${g.items.length} 门）` : "";
+  return `
+    <p class="small mb8">${esc(totalInfo)}</p>
+    <div style="overflow-x:auto"><table class="tbl">
+      <tr><th style="width:44px">#</th><th>课程名称</th><th class="num" style="width:56px">学分</th><th style="width:150px">学生评分</th><th class="num" style="width:64px">评价数</th></tr>
+      ${rows}
+    </table></div>`;
 }
 
 /* ---------- 方向预览表格 ---------- */

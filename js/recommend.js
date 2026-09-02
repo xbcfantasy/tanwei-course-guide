@@ -127,6 +127,7 @@ function loadAdviceFor(answers, definiteCredit, maybeCredit) {
 /* ---------- 通识推荐 ---------- */
 function buildLiberalRecs(answers, data) {
   const extra = many(answers, "extra");
+  const style = one(answers, "style") || "steady";
   const out = [];
   const zhjwxk = data.zhjwxk;
   const libGroups = {};
@@ -135,28 +136,65 @@ function buildLiberalRecs(answers, data) {
     if (!cat || c.attr === "必修") return;
     (libGroups[cat] = libGroups[cat] || []).push(c);
   });
-  const sortByScore = (arr) => arr.sort((a, b) => {
-    const ea = a.eval && a.eval.count ? a.eval.avg : -1;
-    const eb = b.eval && b.eval.count ? b.eval.avg : -1;
-    return eb - ea || (b.eval ? b.eval.count : 0) - (a.eval ? a.eval.count : 0);
-  });
+
+  /** 推荐分：评分 + 评价数信任加成 + 课时成本 + 学业风格 */
+  const recScore = (c) => {
+    const ev = c.eval;
+    if (!ev || !ev.count) return 0.2; // 无评价：给基础分，排在后面但仍可见
+    let s = ev.avg;
+    s += Math.min(ev.count, 15) * 0.04;      // 评价数越多越可信
+    if (c.credit && c.credit <= 2) s += 0.15; // 1-2 学分小课时间成本低
+    if (style === "competitive") s += 0.15;   // 冲绩点更看重口碑
+    if (style === "explore") s += 0.05;
+    return s;
+  };
 
   const catMap = { science: "science", humanity: "humanity", social: "social", art: "art" };
   const catNames = { science: "科学课组", humanity: "人文课组", social: "社科课组", art: "艺术课组" };
+
+  // 用户选的类别 → 每组给 12 门，按推荐分排序
   extra.filter(e => catMap[e]).forEach(e => {
-    const top = sortByScore(libGroups[e] || []).slice(0, 4);
-    if (top.length) out.push({ group: `通识选修·${catNames[e]}`, credit: "建议 2 学分", items: top });
+    const list = (libGroups[e] || []).slice();
+    list.forEach(c => { c._score = recScore(c); });
+    list.sort((a, b) => (b._score || 0) - (a._score || 0));
+    const items = list.slice(0, 12);
+    if (items.length) out.push({
+      group: `通识选修·${catNames[e]}`,
+      credit: "每课组至少 2 学分",
+      total: libGroups[e].length,
+      items,
+    });
   });
 
+  // 伦理类（建议探微选修）
   if (extra.includes("ethic")) {
-    const ethic = sortByScore((libGroups["science"] || []).filter(c => ETHIC_KEYWORDS.some(k => c.name.includes(k))));
-    if (ethic.length) out.push({ group: "通识选修·工程/科学伦理类（培养方案建议选修）", credit: "2 学分", items: ethic.slice(0, 3) });
+    const ethic = (libGroups["science"] || []).filter(c => ETHIC_KEYWORDS.some(k => c.name.includes(k)));
+    ethic.forEach(c => { c._score = recScore(c); });
+    ethic.sort((a, b) => (b._score || 0) - (a._score || 0));
+    if (ethic.length) out.push({
+      group: "通识选修·工程/科学伦理类（培养方案建议选修 1 门）",
+      credit: "建议 2 学分",
+      total: ethic.length,
+      items: ethic.slice(0, 8),
+    });
   }
 
+  // 完全没选类别时：默认科学课组 + 让其他课组也各露一手
   const pickedAny = extra.some(e => catMap[e]);
   if (!pickedAny && !extra.includes("ethic")) {
-    const top = sortByScore(libGroups["science"] || []).slice(0, 4);
-    if (top.length) out.push({ group: "通识选修·科学课组（适合理工科起步）", credit: "建议 2 学分", items: top });
+    const order = ["science", "humanity", "social", "art"];
+    order.forEach(e => {
+      const list = (libGroups[e] || []).slice();
+      list.forEach(c => { c._score = recScore(c); });
+      list.sort((a, b) => (b._score || 0) - (a._score || 0));
+      const items = list.slice(0, e === "science" ? 12 : 4);
+      if (items.length) out.push({
+        group: `通识选修·${catNames[e]}`,
+        credit: e === "science" ? "每课组至少 2 学分" : "（另需留意，可作补充）",
+        total: libGroups[e].length,
+        items,
+      });
+    });
   }
   return out;
 }
