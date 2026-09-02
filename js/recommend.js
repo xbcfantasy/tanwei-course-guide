@@ -73,7 +73,10 @@ function generateFreshmanPlan(answers) {
     preview = buildDirectionPreview(data.pyfa.majors[direction], direction, answers);
   }
 
-  // ---------- ⑥ 学业风格/方向意识提示 ----------
+  // ---------- ⑥ 外语规划（清华外语要求 + 建议） ----------
+  const foreignLang = buildForeignLang(answers, data);
+
+  // ---------- ⑦ 学业风格/方向意识提示 ----------
   const styleTips = styleTipsFor(answers);
 
   return {
@@ -81,8 +84,86 @@ function generateFreshmanPlan(answers) {
     loadAdvice,
     introCourses: { chosen: introWithEval, all: allIntro },
     liberal,
+    foreignLang,
     directionPreview: preview,
     styleTips,
+  };
+}
+
+/* ---------- 外语规划 ----------
+   清华要求（一外英语学生）：外语共 8 学分
+   = ① 英语综合能力课组 必修 4 学分（按入学分级考试定级别）
+   + ② 「第二外语 / 外国语言文化 / 外语专项提高」课组 选修 4 学分
+   一外小语种学生共 6 学分；国际学生共 8 学分。 */
+function buildForeignLang(answers, data) {
+  const english = one(answers, "english") || "c1";
+  const style = one(answers, "style") || "steady";
+  const fi = one(answers, "foreign_interest") || "open";
+
+  // ① 必修课组建议（按分级）
+  const levelMap = {
+    c1: { label: "入学分级 1-2 级", courses: "英语综合训练（C1/C2）", note: "听说读写综合训练为主，先打牢基础" },
+    ba: { label: "入学分级 2-4 级", courses: "英语阅读写作 / 英语听说交流（B/A）", note: "B 级开始分项训练，A 级可衔接高阶与选修课组" },
+  };
+  const level = (english === "c1") ? levelMap.c1 : levelMap.ba;
+
+  // ② 选修课组推荐：从「英语限选课组」中按类别推荐高分课
+  const engCourses = (data.zhjwxk.courses || []).filter(c => c.group === "英语限选课组");
+  const categorize = (c) => {
+    const n = c.name;
+    if (/第二外国语|西班牙语|意大利语|日语|德语|法语|韩国语|韩语|阿拉伯语|俄语/.test(n)) return "second";
+    if (/文化|经典|文学|艺术|电影|音乐|社会/.test(n)) return "culture";
+    if (/视听说|口译|笔译|学术英语|进阶|演讲|写作|应用/.test(n)) return "improve";
+    return "other";
+  };
+  const recScore = (c) => {
+    const ev = c.eval;
+    if (!ev || !ev.count) return 0.2;
+    let s = ev.avg + Math.min(ev.count, 10) * 0.05;
+    if (c.credit <= 2) s += 0.1; // 2 学分课程时间成本低
+    if (style === "competitive") s += 0.1;
+    return s;
+  };
+
+  const buckets = { second: [], culture: [], improve: [] };
+  engCourses.forEach(c => {
+    const cat = categorize(c);
+    if (buckets[cat] === undefined) return;
+    c._cat = cat;
+    c._score = recScore(c);
+    buckets[cat].push(c);
+  });
+  Object.values(buckets).forEach(arr => arr.sort((a, b) => (b._score || 0) - (a._score || 0)));
+
+  const tips = [];
+  if (english === "ba") tips.push("你在 B/A 级：综合能力课完成后即可选择英语限选课组，想出国建议优先「外语专项提高」（学术英语/口译方向）。");
+  if (english === "c1") tips.push("你在 C1/C2 级：第一学期先完成英语综合训练，打好听说读写基础，选修课组可留到后续学期。");
+  if (english === "no") tips.push("偏中文授课不影响外语学分要求——外语课组内的课程本身也以中文讲授为主，可选文化类课程兼顾兴趣。");
+  if (english === "ok") tips.push("不介意英文授课：可以早点衔接「外语专项提高」课组，全英文课堂也是练习场。");
+  if (fi === "second") tips.push("二外通常从（1）开始按学期连修（如西班牙语（1）（2）…），建议入学后尽早选课占位；日语/西班牙语最热门，竞争较激烈。");
+  if (fi === "improve") tips.push("「外语专项提高」多面向高年级/出国党，若你仍是大一，可先修 1 门视听说类适应，学术英语留到大二更从容。");
+  if (fi === "culture") tips.push("文化类课程 2 学分/门最灵活，可与其他类搭配；有些课（如西方文化基础）口碑很好但抢课激烈，留意选课时间。");
+
+  // 按倾向调整三类展示数量（倾向类展示更多）
+  const showCount = { second: 8, improve: 8, culture: 8, open: 6 };
+  const preferred = fi === "second" ? "second" : fi === "improve" ? "improve" : fi === "culture" ? "culture" : null;
+  const mkBucket = (key, title) => {
+    const n = fi === "open" ? 6 : (key === preferred ? 8 : 3);
+    return { title, items: buckets[key].slice(0, n), highlighted: key === preferred };
+  };
+
+  return {
+    requirement: "一外英语学生：外语共 8 学分 = ①英语综合能力必修 4 学分 + ②第二外语/外国语言文化/外语专项提高选修 4 学分",
+    levelLabel: level.label,
+    levelCourses: level.courses,
+    levelNote: level.note,
+    preferenceLabel: fi === "second" ? "你的倾向：第二外语" : fi === "improve" ? "你的倾向：英语进阶/学术" : fi === "culture" ? "你的倾向：外国语言文化" : "你的倾向：不局限，看口碑",
+    buckets: {
+      second: mkBucket("second", "第二外语（系统学一门新语言）"),
+      culture: mkBucket("culture", "外国语言文化（文化视野，2 学分灵活）"),
+      improve: mkBucket("improve", "外语专项提高（英语进阶/学术英语）"),
+    },
+    tips,
   };
 }
 

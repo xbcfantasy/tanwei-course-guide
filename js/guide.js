@@ -271,7 +271,42 @@ const quiz = {
       <div class="grid-2 mt8">${rec.introCourses.all.filter(i => !rec.introCourses.chosen.some(c => c.name === i.name)).map(introCardHTML).join("")}</div></details>`;
     body.appendChild(secC);
 
-    // ============ D. 通识推荐 ============
+    // ============ D. 外语规划 ============
+    const secFL = document.createElement("div");
+    secFL.className = "rec-section";
+    const fl = rec.foreignLang;
+    secFL.innerHTML = `
+      <h2><span class="tag-icon" style="background:#eaf1fe;color:#175cd3">🌍</span> 外语规划（清华外语要求）</h2>
+      <div class="rec-desc">${esc(fl.requirement)}。你的英语情况：${esc(fl.levelLabel)} · <b>${esc(fl.preferenceLabel)}</b></div>
+      <div class="card">
+        <p><b>① 英语综合能力课组（必修 4 学分）</b>：<span class="small">${esc(fl.levelCourses)}</span><br>
+        <span class="small">${esc(fl.levelNote)}</span></p>
+        <p class="mt8"><b>② 选修 4 学分</b>（第二外语 / 外国语言文化 / 外语专项提高 三个课组任选组合，以下按学生口碑推荐，🔥 为你倾向的类别）：</p>
+      </div>`;
+    Object.values(fl.buckets).forEach(b => {
+      if (!b.items.length) return;
+      const blk = document.createElement("div");
+      blk.className = "module-block";
+      blk.innerHTML = `
+        <div class="mod-head">${b.highlighted ? "🔥 " : ""}${esc(b.title)} <span class="mod-req">${esc(b.items[0].credit)} 学分/门</span></div>
+        <div style="overflow-x:auto"><table class="tbl">
+          <tr><th>课程名称</th><th class="num" style="width:56px">学分</th><th style="width:150px">学生评分</th><th class="num" style="width:64px">评价数</th></tr>
+          ${b.items.map(c => `
+            <tr>
+              <td>${esc(c.name)}</td>
+              <td class="num">${fmtCredit(c.credit)}</td>
+              <td>${c.eval && c.eval.count ? `<b>${c.eval.avg.toFixed(1)}</b>（${c.eval.count}条）` : '<span class="score-none">暂无评价</span>'}</td>
+              <td class="num">${c.eval && c.eval.count ? c.eval.count : "-"}</td>
+            </tr>`).join("")}
+        </table></div>`;
+      secFL.appendChild(blk);
+    });
+    if (fl.tips.length) {
+      secFL.innerHTML += `<div class="card mt8"><ul style="margin:4px 0 0 20px;line-height:2">${fl.tips.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>`;
+    }
+    body.appendChild(secFL);
+
+    // ============ E. 通识推荐 ============
     const secD = document.createElement("div");
     secD.className = "rec-section";
     secD.innerHTML = `
