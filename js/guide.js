@@ -237,9 +237,12 @@ const quiz = {
     // ============ A. 大一上核心必选 ============
     const secA = document.createElement("div");
     secA.className = "rec-section";
+    const fnote = rec.fallCore.note || {};
     secA.innerHTML = `
-      <h2><span class="tag-icon bar-req">📌</span> 大一上核心必选（共约 ${rec.fallCore.definiteCredit} 学分）</h2>
-      <div class="rec-desc">探微书院统一底盘，第一学期全班基本一致。下表为<b>推断参考版</b>——以入学后教务系统与书院通知为准。</div>`;
+      <h2><span class="tag-icon bar-req">📌</span> 大一上核心必选（合计 ${rec.fallCore.definiteCredit} 学分）</h2>
+      <div class="rec-desc">探微书院统一底盘，第一学期全班基本一致。${fnote.creditDetail ? esc(fnote.creditDetail) + "。" : ""}</div>
+      ${fnote.noPhysics ? `<div class="notice">${esc(fnote.noPhysics)}</div>` : ""}
+      <p class="small">下表为<b>参考版</b>——以入学后教务系统与书院通知为准。</p>`;
     secA.innerHTML += planTableHTML("本学期确定开设", rec.fallCore.definite);
     if (rec.fallCore.maybe.length) {
       secA.innerHTML += planTableHTML("视教学计划（可能本学期或顺延）", rec.fallCore.maybe, true);

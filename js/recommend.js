@@ -14,19 +14,18 @@ const one = (ans, k) => { const v = ans[k]; return Array.isArray(v) ? v[0] : v; 
 const many = (ans, k) => { const v = ans[k]; return Array.isArray(v) ? v : (v ? [v] : []); };
 
 /* ---------- 大一上核心必选清单（推断参考版） ----------
-   依据：2026级培养方案 + 清华理工科第一学期常规安排。
+   依据：探微书院 26 级实际教学安排——
+   线性代数大一上开课；大学物理(1)大一上不学（后续学期开）。
    标注「供参考」：以入学后教务系统与书院通知为准。
-   eval 字段由运行时从站点数据按课程名/编号补齐。
    intro 字段为该课程的一段简介（人工编写）。 */
 const FRESHMAN_FALL_CORE = [
   { id: "10421055", name: "微积分A(1)", credit: 5, note: "数学必修·第一学期核心课，学分最重，务必跟上节奏", intro: "一元函数微积分：极限、导数、积分及应用。理工科一切课程的数学地基，作业量大但收获最大的一门课，期中期末为主。", attr: "必修", scope: "definite" },
+  { id: "10421324", name: "线性代数", credit: 4, note: "数学必修·大一上开课（与微积分并行）", intro: "矩阵、线性空间、线性变换与特征值——现代 AI/机器学习/数据分析的数学语言，和微积分同等重要的基础课。", attr: "必修", scope: "definite" },
   { id: "10440144", name: "化学原理", credit: 4, note: "探微核心基础课·为后续有机/物化打底", intro: "无机化学与化学基本原理（原子结构、化学键、化学热力学与动力学入门），帮你把高中化学衔接成大学化学的思维，化学系授课。", attr: "必修", scope: "definite" },
   { id: "", name: "计算机程序设计基础（三选一）", credit: 2, note: "三选一：计算机程序设计基础 / 信息科学理论与实践 / Python版", intro: "第一门编程入门课，可选 C 语言、Python 或信息科学方向版本；大二 AI 相关课程与科研都要用到编程，值得认真打底。", attr: "必修", scope: "definite" },
   { id: "", name: "大学生思想文化素养", credit: 2, note: "思政必修·培养方案标注大一秋", intro: "思想政治理论课，课堂讲授与研讨/实践结合，主要考核为平时分+期末论文或报告。", attr: "必修", scope: "definite" },
   { id: "", name: "体育(1)", credit: 1, note: "第1-4学期体育必修，毕业须过游泳测试", intro: "体育必修课，学期初自选项目（游泳/球类/健身等），每周一次课；毕业前须通过游泳测试，可在大一体育课上练习。", attr: "必修", scope: "definite" },
   { id: "", name: "英语分级课", credit: 2, note: "按入学分级考试分到 C1/C2/B/A 课组，学期内完成对应级别", intro: "按入学分级考试定级：C1/C2 组为英语综合训练，B/A 组为阅读写作+听说交流分项训练，每周 2-4 学时。", attr: "必修", scope: "definite" },
-  { id: "10421324", name: "线性代数", credit: 4, note: "数学必修·若本学期未开则顺延，以教务安排为准", intro: "矩阵、线性空间、线性变换与特征值——现代 AI/机器学习/数据分析的数学语言，和微积分同等重要的基础课。", attr: "必修", scope: "maybe" },
-  { id: "10430484", name: "大学物理(1)", credit: 4, note: "三选一（大学物理B(1)/大学物理(1)/英文版）·开课学期以教学计划为准", intro: "力学与热学为主（含振动与波），理工科第二门硬课；分大学物理B/大学物理/英文版三档，探微学生可选物理B（与化学工程衔接更顺）。", attr: "必修", scope: "maybe" },
 ];
 
 /** 先导课四选二：选项 value → {课程名, 编号, 方向说明} */
@@ -56,6 +55,12 @@ function generateFreshmanPlan(answers) {
   const definiteCredit = definite.reduce((s, c) => s + c.credit, 0);
   const maybeCredit = maybe.reduce((s, c) => s + c.credit, 0);
 
+  // 大一上排课补充说明
+  const fallNote = {
+    creditDetail: `核心课合计 ${definiteCredit} 学分：微积分A(1) 5 + 线性代数 4 + 化学原理 4 + 程序设计 2 + 思政 2 + 体育 1 + 英语 2`,
+    noPhysics: "📌 大学物理(1) 大一上不学（探微按教学安排放到后续学期），届时在物理B/物理/英文版三选一；线性代数与微积分A(1) 并行开课。",
+  };
+
   // ---------- ② 学分预算 ----------
   const loadAdvice = loadAdviceFor(answers, definiteCredit, maybeCredit);
 
@@ -81,7 +86,7 @@ function generateFreshmanPlan(answers) {
   const styleTips = styleTipsFor(answers);
 
   return {
-    fallCore: { definite, maybe, definiteCredit, maybeCredit },
+    fallCore: { definite, maybe, definiteCredit, maybeCredit, note: fallNote },
     loadAdvice,
     introCourses: { chosen: introWithEval, all: allIntro },
     liberal,
@@ -213,25 +218,27 @@ function findEvalByName(name) {
   return hit2 ? hit2.eval : null;
 }
 
-/* ---------- 学分预算建议 ---------- */
+/* ---------- 学分预算建议 ----------
+   探微 26 级实际：大一上核心课约 20 学分（微积分5+线代4+化学4+程序设计2+思政2+体育1+英语2），
+   加上先导课 2 学分与 1-2 门通识（2-4 学分），探微新生每学期平均约 26 学分。 */
 function loadAdviceFor(answers, definiteCredit, maybeCredit) {
   const load = one(answers, "load") || "normal";
   const style = one(answers, "style") || "steady";
   const map = {
-    light: { label: "少而精（17 学分左右）", total: 17, note: "把微积分、化学原理这两门最重的课学扎实，余力探索大学生活。" },
-    normal: { label: "标准（19-20 学分）", total: 19.5, note: "核心课 + 先导课 + 1-2 门通识，节奏均衡。" },
-    heavy: { label: "多修一些（21+ 学分）", total: 21.5, note: "基础扎实可加选通识/旁听方向课，注意别挤占主课时间。" },
+    light: { label: "轻量一些（约 22 学分）", total: 22, note: "核心课 20 + 先导课 2 + 1 门通识（2 学分），把微积分/线代/化学原理这三门硬课学扎实。" },
+    normal: { label: "标准节奏（24-26 学分，探微常见）", total: 25, note: "核心课 20 + 先导课 2 + 1-2 门通识（2-4 学分）≈ 24-26 学分——探微新生平均水平约 26 学分。" },
+    heavy: { label: "多修一些（27+ 学分）", total: 27, note: "基础扎实可在标准之上再加 1-2 门通识或旁听课程，务必保证主课质量。" },
   };
   const m = map[load] || map.normal;
   const styleNote = {
-    competitive: "想冲绩点：把每门核心课当主战场，预习+作业+答疑闭环；通识选轻松高分款，把精力留给主课。",
-    steady: "稳扎稳打：保证核心课质量，通识每周占用控制在 6 小时以内即可。",
-    explore: "想多探索：核心课外只加 1 门通识，把时间留给社团/社工/科研宣讲。",
+    competitive: "想冲绩点：微积分/线代/化学原理三门硬课是绩点主战场，预习+作业+答疑闭环；通识选口碑好的轻松款。",
+    steady: "稳扎稳打：保证三门硬课质量，通识每周占用控制在 6 小时以内即可。",
+    explore: "想多探索：核心课 20 学分已不轻松，通识只加 1 门，把时间留给社团/社工/科研宣讲。",
   }[style] || "";
   const room = Math.max(0, Math.round((m.total - definiteCredit) * 10) / 10);
-  const topUp = m.total > definiteCredit
-    ? `核心课已占约 ${definiteCredit} 学分，还剩约 ${room} 学分自由安排——优先 2 学分先导课，其余给通识。`
-    : `核心课约 ${definiteCredit} 学分已接近预算，通识课量力而行，先导课（2 学分）务必安排。`;
+  const topUp = room > 0
+    ? `核心课已占 ${definiteCredit} 学分，还剩约 ${room} 学分自由安排——先导课 2 学分优先，其余给通识。`
+    : `核心课 ${definiteCredit} 学分已达预算上限，通识课量力而行，先导课（2 学分）务必安排。`;
 
   return { label: m.label, total: m.total, note: m.note, styleNote, topUp };
 }
